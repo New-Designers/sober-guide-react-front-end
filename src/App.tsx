@@ -2,9 +2,18 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-
+import GoogleMaps from './components/Map/Map';
 function App() {
   const [count, setCount] = useState(0)
+  
+    const apiKey = 'AIzaSyA3L4eTGBZiSi5bagL1kmhRwRVYa3RNxP0'; // Replace with your actual API key
+
+    return (
+        <div className="App">
+            <h1>Google Maps Integration</h1>
+            <GoogleMaps apiKey={apiKey} />
+        </div>
+    );
 
   return (
     <>
