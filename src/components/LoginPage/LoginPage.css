@@ -1,0 +1,40 @@
+body {
+    background: url('assets/images/sober.jpeg') no-repeat center center;
+    background-size: cover;
+    height: 100vh;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.15);  
+    backdrop-filter: blur(15px);
+}
+
+input::placeholder {
+    color: white;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #FFFFFF;
+}
+
+.btn-custom-green {
+    color: #fff;
+    background-color: #198754; /* Approximation of Bootstrap’s $green-500 */
+    border-color: #198754;
+}
+
+.btn-custom-green:hover {
+    color: #198754;
+    background-color: #fff; /* Change for better visibility on hover */
+    border-color: #198754;
+}
+
+.social-icon {
+    border-radius: 50%;    /* Makes the background circle */
+    background-color: #1c7d32; /* Green background, adjust color code as needed */
+    padding: 5px;          /* Adds space around the icon inside the circle */
+    width: 40px;           /* Adjust based on your needs */
+    height: 40px;          /* Adjust based on your needs */
+    object-fit: contain;   /* Keeps the icon aspect ratio within the circle */
+}
