@@ -34,3 +34,7 @@ nav a i {
 nav a:active i {
   transform: scale(1.5);
 }
+
+nav a:visited {
+  color: white;
+}
