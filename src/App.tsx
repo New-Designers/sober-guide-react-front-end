@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import GoogleMaps from './components/Map/Map';
-import LoginPage from './components/LoginPage/LoginPage';
-import RegisterPage from './components/Register/RegisterPage';
+import GoogleMaps from './pages/Map/Map';
+import LoginPage from './pages/LoginPage/LoginPage';
+import RegisterPage from './pages/Register/RegisterPage';
 import './App.css';
 import './styles/global.css';
 import NavBar from './components/NavBar/NavBar';
