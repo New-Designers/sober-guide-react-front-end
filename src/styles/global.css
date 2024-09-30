@@ -6,42 +6,40 @@
   }
   
 
-  html, body {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #01344A;
-  }
+html, body {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #01344A;
+}
   
 
+#mobile-view {
+  width: 100%;
+  max-width: 414px; 
+  height: 100%;
+  max-height: 896px;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+  
+@media (max-width: 375px) {
   #mobile-view {
-    width: 100%;
-    max-width: 414px; 
-    height: 100%;
+    max-width: 375px;
+    max-height: 667px;
+  }
+}
+  
+@media (min-width: 414px) {
+  #mobile-view {
+    max-width: 414px;
     max-height: 896px;
-    background-color: white;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow: hidden;
   }
-  
-  /* 适配小屏幕手机的样式 */
-  @media (max-width: 375px) {
-    #mobile-view {
-      max-width: 375px;
-      max-height: 667px;
-    }
-  }
-  
-  /* 适配大屏手机的样式 */
-  @media (min-width: 414px) {
-    #mobile-view {
-      max-width: 414px;
-      max-height: 896px;
-    }
-  }
+}
   

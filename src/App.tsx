@@ -5,13 +5,15 @@ import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/Register/RegisterPage';
 import './App.css';
 import './styles/global.css';
+import NavBar from './components/NavBar/NavBar';
 
 function App() {
   const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY'; // Replace with your actual API key
 
   return (
     <Router>
-      <div className="App">
+      <div className="App" id="mobile-view">
+        <NavBar />
         <nav>
           <ul>
             <li>
