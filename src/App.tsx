@@ -6,7 +6,7 @@ import RegisterPage from './components/Register/RegisterPage';
 import './App.css';
 
 function App() {
-  const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY'; // Replace with your actual API key
+  const apiKey = 'AIzaSyA3L4eTGBZiSi5bagL1kmhRwRVYa3RNxP0'; // Replace with your actual API key
 
   return (
     <Router>
