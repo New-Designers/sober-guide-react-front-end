@@ -4,6 +4,7 @@ import GoogleMaps from './components/Map/Map';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/Register/RegisterPage';
 import './App.css';
+import './styles/global.css';
 
 function App() {
   const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY'; // Replace with your actual API key
