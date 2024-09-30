@@ -2,10 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import GoogleMaps from './components/Map/Map';
 import LoginPage from './components/LoginPage/LoginPage';
+import RegisterPage from './components/Register/RegisterPage';
 import './App.css';
 
 function App() {
-  const apiKey = 'AIzaSyA3L4eTGBZiSi5bagL1kmhRwRVYa3RNxP0'; // Replace with your actual API key
+  const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY'; // Replace with your actual API key
 
   return (
     <Router>
@@ -18,15 +19,16 @@ function App() {
             <li>
               <Link to="/login">Login</Link>
             </li>
+            <li>
+              <Link to="/register">Register</Link>
+            </li>
           </ul>
         </nav>
 
         <Routes>
-          {/* Route for the Google Maps page */}
           <Route path="/" element={<GoogleMaps apiKey={apiKey} />} />
-
-          {/* Route for the Login page */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </div>
     </Router>
