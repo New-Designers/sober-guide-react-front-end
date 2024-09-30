@@ -8,7 +8,7 @@ import './styles/global.css';
 import NavBar from './components/NavBar/NavBar';
 
 function App() {
-  const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY'; // Replace with your actual API key
+  const apiKey = 'AIzaSyA3L4eTGBZiSi5bagL1kmhRwRVYa3RNxP0'; // Replace with your actual API key
 
   return (
     <Router>
