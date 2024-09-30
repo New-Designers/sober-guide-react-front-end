@@ -83,19 +83,20 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         infoWindow.open(map);
     };
 
+   
     return (
-        <div>
+        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
             <input
                 ref={inputRef}
                 id="location-input"
                 placeholder="Search location"
                 type="text"
-                style={{ width: '100%', marginBottom: '8px' }} // Set width to 100% and add some margin
+                style={{ width: '100%', padding: '10px', boxSizing: 'border-box' }}
             />
-            <div ref={mapRef} style={{ width: '100%', height: '400px' }} />
+            <div ref={mapRef} style={{ flex: 1, width: '100%' }} />
         </div>
     );
-    
 };
+
 
 export default Map;
