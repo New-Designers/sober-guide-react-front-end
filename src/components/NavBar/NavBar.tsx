@@ -1,74 +1,90 @@
-// src/components/NavBar.tsx
 import React, { useState } from 'react';
+import { Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Box, ButtonBase } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MapIcon from '@mui/icons-material/Map';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import TourIcon from '@mui/icons-material/Tour';
+import MenuIcon from '@mui/icons-material/Menu';
 import './NavBar.module.css';
 
 const NavBar: React.FC = () => {
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
 
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-
-  const setActive = (index: number) => {
-    setActiveIndex(index);
+  const toggleDrawer = (open: boolean) => () => {
+    setDrawerOpen(open);
   };
 
+  const list = () => (
+    <Box
+      sx={{ width: 150 }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        <ListItem>
+          <ButtonBase onClick={() => alert('Account clicked')}>
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Account" />
+          </ButtonBase>
+        </ListItem>
+        <ListItem>
+          <ButtonBase onClick={() => alert('Map clicked')}>
+            <ListItemIcon>
+              <MapIcon />
+            </ListItemIcon>
+            <ListItemText primary="Map" />
+          </ButtonBase>
+        </ListItem>
+        <ListItem>
+          <ButtonBase onClick={() => alert('Events clicked')}>
+            <ListItemIcon>
+              <EmojiEventsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Events" />
+          </ButtonBase>
+        </ListItem>
+        <ListItem>
+          <ButtonBase onClick={() => alert('Tips clicked')}>
+            <ListItemIcon>
+              <TipsAndUpdatesIcon />
+            </ListItemIcon>
+            <ListItemText primary="Tips" />
+          </ButtonBase>
+        </ListItem>
+        <ListItem>
+          <ButtonBase onClick={() => alert('Tour clicked')}>
+            <ListItemIcon>
+              <TourIcon />
+            </ListItemIcon>
+            <ListItemText primary="Tour" />
+          </ButtonBase>
+        </ListItem>
+      </List>
+    </Box>
+  );
+
   return (
-    <nav className="nav-bar">
-      <a href="#" onClick={() => setActive(0)}>
-        {activeIndex === 0 ? (
-          <i className="bi bi-house-door-fill"></i>
-        ) : (
-          <i className="bi bi-house-door"></i>
-        )}
-      </a>
-
-      <a href="#" onClick={() => setActive(1)}>
-        {activeIndex === 1 ? (
-          <i className="bi bi-clock-fill"></i>
-        ) : (
-          <i className="bi bi-clock"></i>
-        )}
-      </a>
-
-      <a href="#" onClick={() => setActive(2)}>
-        {activeIndex === 2 ? (
-          <i className="bi bi-geo-alt-fill"></i>
-        ) : (
-          <i className="bi bi-geo-alt"></i>
-        )}
-      </a>
-
-      <a href="#" onClick={() => setActive(3)}>
-        {activeIndex === 3 ? (
-          <i className="bi bi-bag-heart-fill"></i>
-        ) : (
-          <i className="bi bi-bag-heart"></i>
-        )}
-      </a>
-
-      <a href="#" onClick={() => setActive(4)}>
-        {activeIndex === 4 ? (
-          <i className="bi bi-gift-fill"></i>
-        ) : (
-          <i className="bi bi-gift"></i>
-        )}
-      </a>
-
-      <a href="#" onClick={() => setActive(5)}>
-        {activeIndex === 5 ? (
-          <i className="bi bi-person-arms-up"></i>
-        ) : (
-          <i className="bi bi-person-walking"></i>
-        )}
-      </a>
-
-      <a href="#" onClick={() => setActive(6)}>
-        {activeIndex === 6 ? (
-          <i className="bi bi-journal-bookmark-fill"></i>
-        ) : (
-          <i className="bi bi-journal-bookmark"></i>
-        )}
-      </a>
-    </nav>
+    <div className="nav-bar">
+      <IconButton
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        onClick={toggleDrawer(true)}
+      >
+        <MenuIcon />
+      </IconButton>
+      <Drawer
+        anchor="right"
+        open={isDrawerOpen}
+        onClose={toggleDrawer(false)}
+      >
+        {list()}
+      </Drawer>
+    </div>
   );
 };
 
