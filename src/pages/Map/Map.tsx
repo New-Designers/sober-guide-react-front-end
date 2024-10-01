@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FaClock, FaStopwatch, FaList, FaMapMarkerAlt } from 'react-icons/fa';
+import Button from '@mui/material/Button';
 
 type GoogleMapsProps = {
     apiKey: string;
@@ -221,7 +222,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                     style={{ flex: 1, padding: '10px', width:'90%', marginRight:'10px' }}
                 />
                 <button onClick={() => map && getUserLocation(map)} style={{ padding: '10px' }}>
-                    <FaMapMarkerAlt /> Get My Location
+                    <FaMapMarkerAlt /> Locate
                 </button>
             </div>
             <div ref={mapRef} style={{ flex: 1, width: '100%', marginBottom: '10px' }} />
@@ -272,12 +273,24 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
             )}
     
             {!showTimer && !showAccumulatedTime && (
-                <button onClick={confirmLocation} disabled={locationInput.trim() === ""} style={{ marginBottom: '10px' }}>
+                <Button variant="contained" color="success"
+                sx={{
+                width: '90%',  // Set width to 90% of the parent container
+                margin: '0 auto',  // Center the button horizontally
+                display: 'block',  // Ensure the button behaves like a block element
+              }} onClick={confirmLocation} disabled={locationInput.trim() === ""} style={{ marginBottom: '10px' }}>
                     <FaClock /> Confirm
-                </button>
+                </Button>
             )}
     
-            <button onClick={resetPage}>Reset</button>
+            
+            <Button variant="contained" color="success"
+        sx={{
+        width: '90%',  // Set width to 90% of the parent container
+        margin: '0 auto',  // Center the button horizontally
+        display: 'block',  // Ensure the button behaves like a block element
+        marginBottom:'100px'
+      }} onClick={resetPage}>Reset</Button>
         </div>
     );
 };
