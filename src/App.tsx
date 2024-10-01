@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import GoogleMaps from './pages/Map/Map';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
+import RewardsPage from './pages/RewardsPage/RewardsPage';
 import './App.css';
 import './styles/global.css';
 import NavBar from './components/NavBar/NavBar';
@@ -25,6 +26,9 @@ function App() {
             <li>
               <Link to="/register">Register</Link>
             </li>
+            <li>
+              <Link to="/reward">Reward</Link>
+            </li>
           </ul>
         </nav>
 
@@ -32,6 +36,7 @@ function App() {
           <Route path="/" element={<GoogleMaps apiKey={apiKey} />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/reward" element={<RewardsPage />} />
         </Routes>
       </div>
     </Router>
