@@ -7,7 +7,7 @@ interface SGTitleProps {
   to?: LinkProps['to'];
 }
 
-const SGTitle: React.FC<SGTitleProps> = ({ variant = 'h6', to = '/' }) => {
+const SGTitle: React.FC<SGTitleProps> = ({ variant = 'h1', to = '/' }) => {
   return (
     <Typography
       variant={variant}
