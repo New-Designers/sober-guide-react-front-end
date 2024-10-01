@@ -1,10 +1,9 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Courier New", Courier, monospace;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Courier New", Courier, monospace;
+}
 
 html, body {
   height: 100%;
@@ -13,7 +12,6 @@ html, body {
   align-items: center;
   background-color: #01344A;
 }
-  
 
 #mobile-view {
   width: 100%;
@@ -27,19 +25,72 @@ html, body {
   flex-direction: column;
   justify-content: flex-start;
   overflow: hidden;
+  position: relative;
 }
-  
+
 @media (max-width: 375px) {
   #mobile-view {
     max-width: 375px;
     max-height: 667px;
   }
 }
-  
+
 @media (min-width: 414px) {
   #mobile-view {
     max-width: 414px;
     max-height: 896px;
   }
 }
-  
+
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-top: 80px;
+}
+
+.header {
+  height: fit-content;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  border: solid black;
+  background-color: white;
+  padding: 10px;
+  height: 80px;
+}
+
+.content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-top: 80px;
+}
+
+/* 为了确保在不同设备上header正确定位 */
+@media (max-width: 414px) {
+  .header {
+    max-width: 414px;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 375px) {
+  .header {
+    max-width: 375px;
+  }
+}
+
+@media (min-width: 415px) {
+  .header {
+    max-width: 414px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
