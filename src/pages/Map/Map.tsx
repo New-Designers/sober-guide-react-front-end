@@ -213,7 +213,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
 
     return (
         <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', padding: '10px', alignItems: 'center' }}>
-            <div style={{ display: 'flex', marginBottom: '10px', width: '100%', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', marginBottom: '10px', width: '25rem', justifyContent: 'center' }}>
                 <input
                     ref={inputRef}
                     value={locationInput}
