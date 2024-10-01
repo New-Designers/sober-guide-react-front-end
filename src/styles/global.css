@@ -10,7 +10,6 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #01344A;
 }
 
 #mobile-view {
@@ -47,6 +46,7 @@ html, body {
   flex-direction: column;
   height: 100%;
   padding-top: 80px;
+  background-color: #01344A;
 }
 
 .header {
@@ -59,8 +59,6 @@ html, body {
   z-index: 1000;
   display: flex;
   justify-content: space-between;
-  border: solid black;
-  background-color: white;
   padding: 10px;
   height: 80px;
 }
@@ -71,7 +69,6 @@ html, body {
   padding-top: 80px;
 }
 
-/* 为了确保在不同设备上header正确定位 */
 @media (max-width: 414px) {
   .header {
     max-width: 414px;
