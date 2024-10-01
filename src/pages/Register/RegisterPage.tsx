@@ -28,7 +28,7 @@ const RegisterPage: React.FC = () => {
     };
 
     return (
-        <div className="register-container">
+        <div className="map-container">
             <div className="form-container">
                 <button onClick={handleReturn} className="return-button">
                     <FaArrowLeft /> Return

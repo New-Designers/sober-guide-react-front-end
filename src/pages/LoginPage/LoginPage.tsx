@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaApple, FaGoogle, FaEnvelope } from 'react-icons/fa';
 import './LoginPage.css'; // We'll create this file for LoginPage-specific styles
+import Button from '@mui/material/Button';
 
 const LoginPage: React.FC = () => {
   return (
@@ -14,7 +15,15 @@ const LoginPage: React.FC = () => {
         <form className="login-form">
           <input type="text" placeholder="Username" className="login-input" />
           <input type="password" placeholder="Password" className="login-input" />
-          <button type="submit" className="login-button">Login</button>
+          <Button 
+            type="submit" 
+            variant="contained" 
+            color="success" 
+            fullWidth 
+            className="login-button"
+          >
+            Login
+          </Button>
         </form>
 
         <div className="login-links">

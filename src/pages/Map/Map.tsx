@@ -273,7 +273,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
             )}
     
             {!showTimer && !showAccumulatedTime && (
-                <Button variant="contained" 
+                <Button variant="contained" color="success"
                 sx={{
                 width: '90%',  // Set width to 90% of the parent container
                 margin: '0 auto',  // Center the button horizontally
@@ -284,11 +284,12 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
             )}
     
             
-            <Button variant="contained" 
+            <Button variant="contained" color="success"
         sx={{
         width: '90%',  // Set width to 90% of the parent container
         margin: '0 auto',  // Center the button horizontally
         display: 'block',  // Ensure the button behaves like a block element
+        marginBottom:'100px'
       }} onClick={resetPage}>Reset</Button>
         </div>
     );
