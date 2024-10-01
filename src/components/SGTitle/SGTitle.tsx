@@ -14,13 +14,12 @@ const SGTitle: React.FC<SGTitleProps> = ({ variant = 'h6', to = '/' }) => {
       component={Link}
       to={to}
       sx={{
+        fontSize: '2.5rem',
         fontWeight: 'bold',
-        color: 'black',
+        fontFamily: 'Papyrus, fantasy',
+        color: '#2ED2B9',
         textDecoration: 'none',
         cursor: 'pointer',
-        '&:hover': {
-          color: 'primary.dark',
-        },
       }}
     >
       Sober Guide
