@@ -1,8 +1,11 @@
 import React from 'react';
 import { FaApple, FaGoogle, FaEnvelope } from 'react-icons/fa';
 import Button from '@mui/material/Button';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div style={{
       width: '100%',
@@ -15,7 +18,7 @@ const LoginPage: React.FC = () => {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       fontFamily: '"Courier New", Courier, monospace',
-      padding: '50px',
+      padding: '0 50px 200px 50px',
     }}>
       <div style={{
         width: '100%',
@@ -87,7 +90,7 @@ const LoginPage: React.FC = () => {
           textAlign: 'center',
           width: '100%',
         }}>
-          <a href="#" style={{ color: '#10B981', textDecoration: 'none', fontSize: '1rem' }}>Register</a>
+          <Link to="/register" style={{ color: '#10B981', textDecoration: 'none', fontSize: '1rem' }}>Register</Link>
           <span style={{ margin: '0 0.75rem', color: 'white' }}>|</span>
           <a href="#" style={{ color: '#10B981', textDecoration: 'none', fontSize: '1rem' }}>Forgot password?</a>
         </div>
