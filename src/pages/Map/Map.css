@@ -1,0 +1,89 @@
+/* Map container */
+.map-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  
+  /* Input field for the map */
+  .location-input {
+    width: 90vw;
+    font-size: 1.5em;
+    margin-bottom: 1vh;
+    padding: 1rem;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  /* Map element */
+  .map-element {
+    width: 90vw;
+    height: 60vh;
+    margin-bottom: 1vh;
+  }
+  
+  /* Button styles */
+  .map-button {
+    padding: 10px;
+    margin: 5px;
+    font-size: 1em;
+  }
+  
+  /* Timer display */
+  .timer-display {
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+  
+  /* Time info */
+  .time-info {
+    text-align: center;
+    margin: 5px 0;
+  }
+  
+  /* Accumulated time display */
+  .accumulated-time {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+  }
+  
+  /* Recommended places list */
+  .recommended-places {
+    width: 90vw;
+    margin-top: 10px;
+  }
+  
+  .place-item {
+    margin-bottom: 5px;
+  }
+  
+  /* Error message */
+  .error-message {
+    color: red;
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .location-input {
+      width: 100vw;
+      font-size: 1.8em;
+    }
+  
+    .map-element {
+      width: 100vw;
+      height: 50vh;
+    }
+  
+    .map-button {
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
