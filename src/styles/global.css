@@ -71,7 +71,6 @@ html, body {
   padding-top: 80px;
 }
 
-/* 为了确保在不同设备上header正确定位 */
 @media (max-width: 414px) {
   .header {
     max-width: 414px;
