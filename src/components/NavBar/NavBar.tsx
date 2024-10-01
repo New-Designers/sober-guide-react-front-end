@@ -8,10 +8,8 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import TourIcon from '@mui/icons-material/Tour';
 import MenuIcon from '@mui/icons-material/Menu';
-import styles from './NavBar.module.css';
 
-// 使用 styled API 创建自定义的 Drawer 组件
-const CustomDrawer = styled(Drawer)(({ theme }) => ({
+const CustomDrawer = styled(Drawer)(() => ({
   '& .MuiDrawer-paper': {
     backgroundColor: '#2ED2B9',
     color: 'white',
