@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import GoogleMaps from './components/Map/Map';
-import LoginPage from './components/LoginPage/LoginPage';
-import RegisterPage from './components/Register/RegisterPage';
+import GoogleMaps from './pages/Map/Map';
+import LoginPage from './pages/LoginPage/LoginPage';
+import RegisterPage from './pages/Register/RegisterPage';
+import RewardsPage from './pages/RewardsPage/RewardsPage';
 import NavBar from './components/NavBar/NavBar';
 import './styles/Global.css';
 import BackButton from './components/BackButton/BackButton';
@@ -25,6 +26,7 @@ function App() {
               <Route path="/" element={<GoogleMaps apiKey={apiKey} />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/reward" element={<RewardsPage />} />
             </Routes>
           </main>
         </div>
