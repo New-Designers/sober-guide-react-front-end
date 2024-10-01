@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Box, ButtonBase } from '@mui/material';
+import { Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MapIcon from '@mui/icons-material/Map';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import TourIcon from '@mui/icons-material/Tour';
 import MenuIcon from '@mui/icons-material/Menu';
-import './NavBar.module.css';
+import styles from './NavBar.module.css';
+
+// 使用 styled API 创建自定义的 Drawer 组件
+const CustomDrawer = styled(Drawer)(({ theme }) => ({
+  '& .MuiDrawer-paper': {
+    backgroundColor: '#2ED2B9',
+    color: 'white',
+  },
+}));
 
 const NavBar: React.FC = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -30,46 +39,28 @@ const NavBar: React.FC = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        <ListItem>
-          <ButtonBase onClick={() => handleNavigation('/login')}>
-            <ListItemIcon>
-              <AccountCircleIcon />
+        {[
+          { text: 'Account', icon: <AccountCircleIcon />, path: '/login' },
+          { text: 'Map', icon: <MapIcon />, path: '/' },
+          { text: 'Rewards', icon: <EmojiEventsIcon />, path: '/reward' },
+          { text: 'Health Tips', icon: <TipsAndUpdatesIcon />, path: '/health-tips' },
+          { text: 'Places', icon: <TourIcon />, path: '/tour' },
+        ].map((item) => (
+          <ListItem 
+            key={item.text} 
+            onClick={() => handleNavigation(item.path)}
+            sx={{ padding: '16px 24px' }}
+          >
+            <ListItemIcon sx={{ minWidth: '40px', color: 'white' }}>
+              {item.icon}
             </ListItemIcon>
-            <ListItemText primary="Account" />
-          </ButtonBase>
-        </ListItem>
-        <ListItem>
-          <ButtonBase onClick={() => handleNavigation('/')}>
-            <ListItemIcon>
-              <MapIcon />
-            </ListItemIcon>
-            <ListItemText primary="Map" />
-          </ButtonBase>
-        </ListItem>
-        <ListItem>
-          <ButtonBase onClick={() => handleNavigation('/reward')}>
-            <ListItemIcon>
-              <EmojiEventsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Rewards" />
-          </ButtonBase>
-        </ListItem>
-        <ListItem>
-          <ButtonBase onClick={() => handleNavigation('/health-tips')}>
-            <ListItemIcon>
-              <TipsAndUpdatesIcon />
-            </ListItemIcon>
-            <ListItemText primary="Health Tips" />
-          </ButtonBase>
-        </ListItem>
-        <ListItem>
-          <ButtonBase onClick={() => handleNavigation('/tour')}>
-            <ListItemIcon>
-              <TourIcon />
-            </ListItemIcon>
-            <ListItemText primary="Places" />
-          </ButtonBase>
-        </ListItem>
+            <ListItemText 
+              primary={item.text} 
+              sx={{ marginLeft: '16px', color: 'white' }}
+              primaryTypographyProps={{ style: { fontSize: '16px' } }}
+            />
+          </ListItem>
+        ))}
       </List>
     </Box>
   );
@@ -78,19 +69,19 @@ const NavBar: React.FC = () => {
     <div className="nav-bar">
       <IconButton
         edge="start"
-        color="inherit"
         aria-label="menu"
         onClick={toggleDrawer(true)}
+        sx={{ color: '#2ED2B9' }}
       >
         <MenuIcon />
       </IconButton>
-      <Drawer
+      <CustomDrawer
         anchor="right"
         open={isDrawerOpen}
         onClose={toggleDrawer(false)}
       >
         {list()}
-      </Drawer>
+      </CustomDrawer>
     </div>
   );
 };
