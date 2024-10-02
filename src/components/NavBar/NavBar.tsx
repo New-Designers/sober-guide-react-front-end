@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Grow, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, Grow, List, ListItemButton, ListItemIcon, ListItemText, IconButton } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MapIcon from '@mui/icons-material/Map';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import TourIcon from '@mui/icons-material/Tour';
+import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
+import WidgetsIcon from '@mui/icons-material/Widgets';
+import { keyframes, styled } from '@mui/system';
 
 interface NavItem {
   text: string;
@@ -13,18 +16,63 @@ interface NavItem {
   path: string;
 }
 
-const NavBar: React.FC = () => {
-  const [checked, setChecked] = useState(false);
-  const navigate = useNavigate();
+const shakeAnimation = keyframes`
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(10deg); }
+  50% { transform: rotate(0eg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+`;
 
-  const toggleChecked = () => {
-    setChecked((prev) => !prev);
+const AnimatedIconButton = styled(IconButton)(() => ({
+  color: '#2ED2B9',
+  '&.active': {
+    color: '#2ED2B9',
+  },
+}));
+
+const NavBar: React.FC = () => {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const navigate = useNavigate();
+  const navRef = useRef<HTMLDivElement>(null);
+
+  const triggerAnimation = () => {
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 300);
+  };
+
+  const toggleNav = () => {
+    triggerAnimation();
+    setIsNavOpen((prev) => !prev);
+  };
+
+  const closeNav = () => {
+    if (isNavOpen) {
+      triggerAnimation();
+      setIsNavOpen(false);
+    }
   };
 
   const handleNavigation = (path: string) => {
+    closeNav();
     navigate(path);
-    setChecked(false);
   };
+
+  const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+    if (navRef.current && !navRef.current.contains(event.target as Node) && isNavOpen) {
+      closeNav();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isNavOpen]);
 
   const navItems: NavItem[] = [
     { text: 'Account', icon: <AccountCircleIcon />, path: '/login' },
@@ -35,16 +83,32 @@ const NavBar: React.FC = () => {
   ];
 
   return (
-    <div>
-      <Button variant="contained" onClick={toggleChecked}>
-        {checked ? 'Hide Nav' : 'Show Nav'}
-      </Button>
+    <Box sx={{ width: '100%' }} ref={navRef}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', margin: '0 2 2 0' }}>
+        <AnimatedIconButton
+          onClick={toggleNav}
+          className={isNavOpen ? 'active' : ''}
+          sx={{ 
+            animation: isAnimating ? `${shakeAnimation} 0.3s ease-in-out` : 'none',
+            '&:focus': {
+              outline: 'none',
+              boxShadow: 'none',
+            },
+          }}
+        >
+          {isNavOpen ? (
+            <WidgetsIcon sx={{ fontSize: 28 }} />
+          ) : (
+            <WidgetsOutlinedIcon sx={{ fontSize: 28 }} />
+          )}
+        </AnimatedIconButton>
+      </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
         <List>
           {navItems.map((item, index) => (
             <Grow
               key={item.text}
-              in={checked}
+              in={isNavOpen}
               style={{ transformOrigin: 'top' }}
               timeout={(index + 1) * 250}
             >
@@ -53,7 +117,7 @@ const NavBar: React.FC = () => {
                   padding: '12px 15px',
                   backgroundColor: '#2ED2B9',
                   color: 'white',
-                  borderRadius: 3,
+                  borderRadius: 4,
                   marginBottom: 1.5,
                   marginRight: 1,
                   '&:hover': {
@@ -62,20 +126,26 @@ const NavBar: React.FC = () => {
                 }}
                 onClick={() => handleNavigation(item.path)}
               >
-                <ListItemIcon sx={{ minWidth: '40px', color: 'white' }}>
+                <ListItemIcon sx={{ minWidth: '30px', color: 'white' }}>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText
                   primary={item.text}
-                  sx={{ marginLeft: '16px' }}
-                  primaryTypographyProps={{ style: { fontSize: '16px' } }}
+                  sx={{
+                    marginLeft: '16px',
+                    '& .MuiListItemText-primary': {
+                      fontFamily: "'Courier New', Courier, monospace",
+                      fontSize: '17px',
+                      fontWeight: 'bold',
+                    },
+                  }}
                 />
               </ListItemButton>
             </Grow>
           ))}
         </List>
       </Box>
-    </div>
+    </Box>
   );
 };
 

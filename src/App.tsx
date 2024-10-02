@@ -10,7 +10,7 @@ import SGTitle from './components/SGTitle/SGTitle';
 import NavBar from './components/NavBar/NavBar';
 
 function App() {
-  const apiKey = 'AIzaSyA3L4eTGBZiSi5bagL1kmhRwRVYa3RNxP0'; // Replace with your actual API key
+  const apiKey = 'AIzaSyA3L4eTGBZiSi5bagL1kmhRwRVYa3RNxP0';
 
   return (
     <Router>
@@ -19,7 +19,9 @@ function App() {
           <header className="header">
             <BackButton />
             <SGTitle />
-            <NavBar />
+            <div className="nav-bar">
+              <NavBar />
+            </div>
           </header>
           <main className="content">
             <Routes>

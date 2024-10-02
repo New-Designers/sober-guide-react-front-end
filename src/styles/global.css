@@ -49,6 +49,7 @@ html, body {
 }
 
 .header {
+  position: relative;
   margin: 0;
   height: fit-content;
   width: 100%;
@@ -58,10 +59,16 @@ html, body {
   right: 0;
   z-index: 1000;
   display: flex;
-  justify-content: space-between;
   padding: 10px;
   height: 80px;
   background-color: #01344A;
+}
+
+.nav-bar {
+  position: absolute;
+  top: 20px;
+  right: 0px;
+  z-index: 9999;
 }
 
 .content {
