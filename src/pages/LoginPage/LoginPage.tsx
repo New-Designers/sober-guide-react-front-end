@@ -1,23 +1,28 @@
 import React from 'react';
 import { FaApple, FaGoogle, FaEnvelope } from 'react-icons/fa';
 import Button from '@mui/material/Button';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div style={{
       width: '100%',
-      height: '100%',
+      height: '100vh',
       display: 'flex',
+      flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
       backgroundImage: 'url("/assets/images/sober.jpeg")',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       fontFamily: '"Courier New", Courier, monospace',
+      padding: '0 50px 200px 50px',
     }}>
       <div style={{
-        width: '90%',
-        maxWidth: '400px',
+        width: '100%',
+        maxWidth: '414px',
         padding: '2rem',
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
         backdropFilter: 'blur(10px)',
@@ -53,38 +58,41 @@ const LoginPage: React.FC = () => {
         }}>
           <input type="text" placeholder="Username" style={{
             width: '100%',
-            padding: '0.5rem',
+            padding: '0.75rem',
             border: '1px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '0.25rem',
             backgroundColor: 'rgba(255, 255, 255, 0.1)',
             color: 'white',
+            fontSize: '1rem',
           }} />
           <input type="password" placeholder="Password" style={{
             width: '100%',
-            padding: '0.5rem',
+            padding: '0.75rem',
             border: '1px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '0.25rem',
             backgroundColor: 'rgba(255, 255, 255, 0.1)',
             color: 'white',
+            fontSize: '1rem',
           }} />
           <Button 
             type="submit" 
             variant="contained" 
             color="success" 
             fullWidth 
-            style={{ marginTop: '1rem' }}
+            style={{ marginTop: '1rem', padding: '0.75rem', fontSize: '1rem' }}
           >
             Login
           </Button>
         </form>
 
         <div style={{
-          marginTop: '1rem',
+          marginTop: '1.5rem',
           textAlign: 'center',
+          width: '100%',
         }}>
-          <a href="#" style={{ color: '#10B981', textDecoration: 'none' }}>Register</a>
-          <span style={{ margin: '0 0.5rem', color: 'white' }}>|</span>
-          <a href="#" style={{ color: '#10B981', textDecoration: 'none' }}>Forgot password?</a>
+          <Link to="/register" style={{ color: '#10B981', textDecoration: 'none', fontSize: '1rem' }}>Register</Link>
+          <span style={{ margin: '0 0.75rem', color: 'white' }}>|</span>
+          <a href="#" style={{ color: '#10B981', textDecoration: 'none', fontSize: '1rem' }}>Forgot password?</a>
         </div>
 
         <div style={{
@@ -92,23 +100,24 @@ const LoginPage: React.FC = () => {
           textAlign: 'center',
           width: '100%',
         }}>
-          <p style={{ color: 'white', marginBottom: '1rem' }}>Or continue with</p>
+          <p style={{ color: 'white', marginBottom: '1rem', fontSize: '1rem' }}>Or continue with</p>
           <div style={{
             display: 'flex',
             justifyContent: 'center',
-            gap: '1rem',
+            gap: '1.5rem',
           }}>
             {['apple', 'google', 'envelope'].map((icon, index) => (
               <a key={icon} href="#" style={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: '40px',
-                height: '40px',
+                width: '50px',
+                height: '50px',
                 backgroundColor: 'white',
                 borderRadius: '50%',
                 color: '#4A5568',
                 textDecoration: 'none',
+                fontSize: '1.5rem',
               }}>
                 {icon === 'apple' && <FaApple />}
                 {icon === 'google' && <FaGoogle />}

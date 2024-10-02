@@ -212,8 +212,8 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
     }, [timerActive]);
 
     return (
-        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', padding: '10px', alignItems: 'center' }}>
-            <div style={{ display: 'flex', marginBottom: '10px', width: '25rem', justifyContent: 'center' }}>
+        <div style={{ height: '100vh',width:'100%', display: 'flex', flexDirection: 'column', padding: '0 50px 50px 50px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', marginBottom: '10px', width: '120%', justifyContent: 'center' }}>
                 <input
                     ref={inputRef}
                     value={locationInput}
@@ -225,7 +225,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                     <FaMapMarkerAlt /> Locate
                 </button>
             </div>
-            <div ref={mapRef} style={{ flex: 1, width: '100%', marginBottom: '10px' }} />
+            <div ref={mapRef} style={{ flex: 1, width: '120%', marginBottom: '10px' }} />
             
             {locationError && (
                 <div style={{ color: 'red', padding: '10px', marginBottom: '10px', textAlign: 'center', width: '100%' }}>
