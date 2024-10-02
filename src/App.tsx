@@ -4,10 +4,10 @@ import GoogleMaps from './pages/Map/Map';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 import RewardsPage from './pages/RewardsPage/RewardsPage';
-import NavBar from './components/NavBar/NavBar';
 import './styles/Global.css';
 import BackButton from './components/BackButton/BackButton';
 import SGTitle from './components/SGTitle/SGTitle';
+import NavBar from './components/NavBar/NavBar';
 
 function App() {
   const apiKey = 'AIzaSyA3L4eTGBZiSi5bagL1kmhRwRVYa3RNxP0'; // Replace with your actual API key
