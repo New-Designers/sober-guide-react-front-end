@@ -66,7 +66,7 @@ const RegisterPage: React.FC = () => {
                 <Button
                     onClick={handleReturn}
                     variant="contained"
-                    color="primary"
+                    color="success"
                     startIcon={<FaArrowLeft />}
                     style={{ marginBottom: '20px' }}
                 >
@@ -135,7 +135,7 @@ const RegisterPage: React.FC = () => {
                         <Button
                             onClick={sendVerificationCode}
                             variant="contained"
-                            color="primary"
+                            color="success"
                             startIcon={<FaPaperPlane />}
                         >
                             Send
@@ -159,7 +159,7 @@ const RegisterPage: React.FC = () => {
                     <Button
                         type="submit"
                         variant="contained"
-                        color="primary"
+                        color="success"
                         fullWidth
                         startIcon={<FaCheck />}
                     >
