@@ -1,93 +1,97 @@
 .register-container {
-    width: 100%;
-    height: 100%;
-    background-image: url('assets/images/sober.jpeg');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+  width: 100%;
+  min-height: 100vh;
+  background-image: url('/assets/images/sober.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  font-family: "Courier New", Courier, monospace;
+  overflow-y: auto;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 414px;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+
+.return-button {
+  margin-bottom: 20px !important;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 20px;
+  color: white;
+  font-size: 1.5em;
+}
+
+.brand-name {
+  color: #4CAF50;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1rem;
+}
+
+.verification-container {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.verification-input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 0.9em;
+}
+
+.checkbox {
+  margin-right: 10px;
+}
+
+.button {
+  margin-top: 10px;
+}
+
+@media (max-width: 480px) {
+  .register-container {
+    padding: 10px;
   }
-  
+
   .form-container {
-    width: 100%;
-    max-width: 350px;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
   }
-  
-  .return-button {
-    display: inline-block;
-    padding: 10px 15px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    font-size: 1em;
+
+  .input, .button {
+    font-size: 0.9rem;
   }
-  
-  .heading {
-    text-align: center;
-    margin-bottom: 20px;
-    color: white;
-    font-size: 1.5em;
-  }
-  
-  .brand-name {
-    color: #4CAF50;
-  }
-  
-  .register-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-size: 1em;
-  }
-  
-  .verification-container {
-    display: flex;
-    margin-bottom: 10px;
-  }
-  
-  .verification-input {
-    flex: 1;
-    margin-right: 10px;
-  }
-  
-  .button {
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-  }
-  
-  .checkbox-label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    color: white;
-    font-size: 0.9em;
-  }
-  
-  .checkbox {
-    margin-right: 10px;
-  }
-  
+}

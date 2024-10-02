@@ -29,7 +29,7 @@ html, body {
 @media (max-width: 375px) {
   #mobile-view {
     max-width: 375px;
-    max-height: 667px;
+    max-height: 800px;
   }
 }
 

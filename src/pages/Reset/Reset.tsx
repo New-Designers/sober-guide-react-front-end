@@ -2,45 +2,43 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FaArrowLeft, FaPaperPlane, FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import './RegisterPage.css';
+import './Reset.css';
 
-const RegisterPage: React.FC = () => {
+const Reset: React.FC = () => {
     const navigate = useNavigate();
     const formRef = useRef<HTMLDivElement>(null);
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        password: '',
-        confirmPassword: '',
+        identifier: '',
         verificationCode: '',
-        agreeTerms: false
+        newPassword: '',
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value } = e.target;
         setFormData(prevData => ({
             ...prevData,
-            [name]: type === 'checkbox' ? checked : value
+            [name]: value
         }));
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Registration submitted', formData);
+        console.log('Password reset submitted', formData);
+        // Implement password reset logic here
     };
 
     const sendVerificationCode = () => {
         console.log('Verification code sent');
+        // Implement send verification code logic here
     };
 
+    // Scroll function
     useEffect(() => {
         formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }, [formData]);
 
     return (
-        <div className="register-container">
+        <div className="reset-password-container">
             <div ref={formRef} className="form-container">
                 <Button
                     onClick={() => navigate('/login')}
@@ -52,36 +50,24 @@ const RegisterPage: React.FC = () => {
                     Return
                 </Button>
 
-                <h3 className="heading">
-                    Join The <span className="brand-name">Sober Guide</span>
-                </h3>
+                <h3 className="heading">Reset the Password</h3>
 
-                <form onSubmit={handleSubmit} className="register-form">
-                    {[
-                        { name: 'firstName', placeholder: "First Name" },
-                        { name: 'lastName', placeholder: "Last Name" },
-                        { name: 'email', placeholder: "Email", type: "email" },
-                        { name: 'phoneNumber', placeholder: "Phone Number", type: "tel" },
-                        { name: 'password', placeholder: "Password", type: "password" },
-                        { name: 'confirmPassword', placeholder: "Confirm Password", type: "password" },
-                    ].map((input) => (
-                        <input
-                            key={input.name}
-                            type={input.type || "text"}
-                            name={input.name}
-                            value={formData[input.name as keyof typeof formData] as string}
-                            onChange={handleChange}
-                            placeholder={input.placeholder}
-                            className="input"
-                        />
-                    ))}
+                <form onSubmit={handleSubmit} className="reset-password-form">
+                    <input
+                        type="text"
+                        name="identifier"
+                        value={formData.identifier}
+                        onChange={handleChange}
+                        placeholder="Username/Email/Phone Number"
+                        className="input"
+                    />
                     <div className="verification-container">
                         <input
                             type="text"
                             name="verificationCode"
                             value={formData.verificationCode}
                             onChange={handleChange}
-                            placeholder="Verify the Email"
+                            placeholder="Verify the account"
                             className="input verification-input"
                         />
                         <Button
@@ -93,16 +79,14 @@ const RegisterPage: React.FC = () => {
                             Send
                         </Button>
                     </div>
-                    <label className="checkbox-label">
-                        <input
-                            type="checkbox"
-                            name="agreeTerms"
-                            checked={formData.agreeTerms}
-                            onChange={handleChange}
-                            className="checkbox"
-                        />
-                        I agree to and abide by the user agreement
-                    </label>
+                    <input
+                        type="password"
+                        name="newPassword"
+                        value={formData.newPassword}
+                        onChange={handleChange}
+                        placeholder="Reset the password"
+                        className="input"
+                    />
                     <Button
                         type="submit"
                         variant="contained"
@@ -111,12 +95,21 @@ const RegisterPage: React.FC = () => {
                         startIcon={<FaCheck />}
                         className="button"
                     >
-                        Create
+                        Confirm
                     </Button>
                 </form>
+                <Button
+                    onClick={() => navigate('/register')}
+                    variant="text"
+                    color="success"
+                    fullWidth
+                    className="create-account-button"
+                >
+                    Create a new account
+                </Button>
             </div>
         </div>
     );
 };
 
-export default RegisterPage;
+export default Reset;
