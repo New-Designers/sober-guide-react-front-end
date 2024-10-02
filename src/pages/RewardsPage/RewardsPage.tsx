@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Modal, Fade } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { CardGiftcard, Close as CloseIcon } from '@mui/icons-material';
@@ -24,6 +24,7 @@ const RewardsDashboard: React.FC = () => {
   const [rewardState, setRewardState] = useState<RewardState>('box');
   const [selectedReward, setSelectedReward] = useState<number | null>(null);
   const [showNotification, setShowNotification] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const handleRewardClick = () => {
     setRewardState('rewards');
@@ -43,6 +44,30 @@ const RewardsDashboard: React.FC = () => {
     setRewardState('box');
     setSelectedReward(null);
   };
+
+  // Scroll function
+  useEffect(() => {
+    const handleScroll = () => {
+      if (contentRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = contentRef.current;
+        if (scrollTop + clientHeight >= scrollHeight - 10) {
+          // User has scrolled to the bottom
+          console.log('Reached the bottom of the page');
+        }
+      }
+    };
+
+    const currentRef = contentRef.current;
+    if (currentRef) {
+      currentRef.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (currentRef) {
+        currentRef.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
 
   const renderReward = () => {
     switch (rewardState) {
@@ -79,8 +104,9 @@ const RewardsDashboard: React.FC = () => {
                       sx={{ 
                         height: '100%', 
                         width: '100%',
-                        fontSize: '1.2rem',
-                        fontWeight: 'bold'
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
+                        padding: '10px 5px',
                       }}
                     >
                       Start
@@ -89,7 +115,7 @@ const RewardsDashboard: React.FC = () => {
                     <Box
                       sx={{
                         backgroundColor: selectedReward === index ? '#4CAF50' : '#035',
-                        p: 2,
+                        p: 1,
                         borderRadius: 2,
                         height: '100%',
                         display: 'flex',
@@ -98,7 +124,7 @@ const RewardsDashboard: React.FC = () => {
                         transition: 'background-color 0.3s',
                       }}
                     >
-                      <Typography variant="body2" align="center">
+                      <Typography variant="body2" align="center" sx={{ fontSize: '0.8rem' }}>
                         {reward}
                       </Typography>
                     </Box>
@@ -112,9 +138,20 @@ const RewardsDashboard: React.FC = () => {
   };
 
   return (
-    <Box sx={{ backgroundColor: '#024', color: 'white', height: '100vh', padding: 2 }}>
+    <Box 
+      ref={contentRef}
+      sx={{ 
+        backgroundColor: '#024', 
+        color: 'white', 
+        minHeight: '100vh',
+        padding: 2,
+        overflowY: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <Typography variant="h6" gutterBottom>WEEKLY ALCOHOL INTAKE</Typography>
-      <Box sx={{ height: 300, mb: 2 }}>
+      <Box sx={{ height: 250, mb: 2 }}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -127,12 +164,12 @@ const RewardsDashboard: React.FC = () => {
       </Box>
       
       <Box sx={{ backgroundColor: '#035', p: 2, borderRadius: 2, mb: 2 }}>
-        <Typography variant="body1" align="center">
+        <Typography variant="body2" align="center">
           You have reduced social drinking for 7 consecutive days, and now you're being rewarded.
         </Typography>
       </Box>
       
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 250 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexGrow: 1, my: 2 }}>
         {renderReward()}
       </Box>
       
@@ -153,7 +190,8 @@ const RewardsDashboard: React.FC = () => {
               borderRadius: 4,
               boxShadow: 24,
               p: 4,
-              maxWidth: 400,
+              maxWidth: '90%',
+              width: 400,
               textAlign: 'center',
               position: 'relative',
             }}
