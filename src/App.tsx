@@ -17,8 +17,12 @@ function App() {
       <div id="mobile-view">
         <div className="App">
           <header className="header">
-            <BackButton />
-            <SGTitle />
+            <div className="back-button">
+              <BackButton /> 
+            </div>
+            <div className="sg-title">
+              <SGTitle />
+            </div >
             <div className="nav-bar">
               <NavBar />
             </div>

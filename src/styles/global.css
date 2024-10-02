@@ -58,16 +58,21 @@ html, body {
   left: 0;
   right: 0;
   z-index: 1000;
-  display: flex;
   padding: 10px;
   height: 80px;
   background-color: #01344A;
+  display: flex;
+}
+
+.sg-title {
+  margin-top: 5px;
+  margin-left: 8%;
 }
 
 .nav-bar {
   position: absolute;
-  top: 20px;
-  right: 0px;
+  top: 15px;
+  right: 9px;
   z-index: 9999;
 }
 
