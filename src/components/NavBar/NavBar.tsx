@@ -8,6 +8,7 @@ import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import TourIcon from '@mui/icons-material/Tour';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import WidgetsIcon from '@mui/icons-material/Widgets';
+import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
 import { keyframes, styled } from '@mui/system';
 
 interface NavItem {
@@ -76,6 +77,7 @@ const NavBar: React.FC = () => {
 
   const navItems: NavItem[] = [
     { text: 'Account', icon: <AccountCircleIcon />, path: '/login' },
+    { text: 'My Info', icon: <MedicalInformationOutlinedIcon />, path: '/my-info' },
     { text: 'Map', icon: <MapIcon />, path: '/' },
     { text: 'Rewards', icon: <EmojiEventsIcon />, path: '/reward' },
     { text: 'Tips', icon: <TipsAndUpdatesIcon />, path: '/health-tips' },
@@ -110,7 +112,7 @@ const NavBar: React.FC = () => {
               key={item.text}
               in={isNavOpen}
               style={{ transformOrigin: 'top' }}
-              timeout={(index + 1) * 250}
+              timeout={(index + 1) * 177}
             >
               <ListItemButton
                 sx={{

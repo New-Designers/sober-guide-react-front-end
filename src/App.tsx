@@ -9,6 +9,7 @@ import './styles/Global.css';
 import BackButton from './components/BackButton/BackButton';
 import SGTitle from './components/SGTitle/SGTitle';
 import NavBar from './components/NavBar/NavBar';
+import MyInfo from './pages/MyInfo/MyInfo';
 
 function App() {
   const apiKey = 'AIzaSyA3L4eTGBZiSi5bagL1kmhRwRVYa3RNxP0';
@@ -34,7 +35,8 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/reward" element={<RewardsPage />} />
-              <Route path="/reset-password" element={<Reset />} /> 
+              <Route path="/reset-password" element={<Reset />} />
+              <Route path="/my-info" element={<MyInfo />} />
             </Routes>
           </main>
         </div>

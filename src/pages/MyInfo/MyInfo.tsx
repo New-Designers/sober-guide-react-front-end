@@ -2,7 +2,7 @@ import React from 'react';
 import UserInfo from './components/UserInfo/UserInfo';
 import HealthInfo from './components/HealthInfo/HealthInfo';
 
-const SelfRecord: React.FC = () => {
+const MyInfo: React.FC = () => {
   const userData = {
     avatarUrl: 'https://example.com/avatar.jpg',
     name: 'Raymond Zhu',
@@ -23,4 +23,4 @@ const SelfRecord: React.FC = () => {
   );
 };
 
-export default SelfRecord;
+export default MyInfo;
