@@ -1,6 +1,7 @@
 import React from 'react';
 import UserInfo from './components/UserInfo/UserInfo';
 import HealthInfo from './components/HealthInfo/HealthInfo';
+import styles from './MyInfo.module.css';
 
 const MyInfo: React.FC = () => {
   const userData = {
@@ -16,7 +17,7 @@ const MyInfo: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={styles['my-info-page']}>
       <UserInfo avatarUrl={userData.avatarUrl} name={userData.name} />
       <HealthInfo age={healthData.age} height={healthData.height} weight={healthData.weight} gender={healthData.gender} />
     </div>
