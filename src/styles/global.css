@@ -34,7 +34,7 @@ html, body {
 
 .header {
   position: absolute;
-  top: 43px;
+  top: 5vh;
   left: 0;
   right: 0;
   z-index: 1000;
@@ -59,10 +59,10 @@ html, body {
 .content {
   flex-grow: 1;
   overflow-y: auto;
-  padding-top: 43px;
-  margin-top: 80px;
+  padding-top: 5vh;
+  margin-top: 10vh;
   width: 100%;
-  height: 746px;
+  height: 90vh;
   
 }
 
