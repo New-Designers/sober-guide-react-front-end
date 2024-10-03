@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 import RewardsPage from './pages/RewardsPage/RewardsPage';
 import Reset from './pages/Reset/Reset'; 
+import TimeTrackingRecord from './pages/TimeRecord/TimeRecord'; // Import the new component
 import './styles/Global.css';
 import BackButton from './components/BackButton/BackButton';
 import SGTitle from './components/SGTitle/SGTitle';
@@ -35,6 +36,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/reward" element={<RewardsPage />} />
               <Route path="/reset-password" element={<Reset />} /> 
+              <Route path="/time-tracking" element={<TimeTrackingRecord />} /> {/* Add this new route */}
             </Routes>
           </main>
         </div>
