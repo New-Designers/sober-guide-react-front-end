@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button, Grid } from '@mui/material';
+import { Box, Typography, Button, Grid, Modal, Fade } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { CardGiftcard } from '@mui/icons-material';
+import { CardGiftcard, Close as CloseIcon } from '@mui/icons-material';
 
 const data = [
   { date: 'Aug 13', drinks: 6 },
@@ -13,15 +13,35 @@ const data = [
   { date: 'Aug 19', drinks: 0 },
 ];
 
-type RewardState = 'hidden' | 'box' | 'turntable';
+type RewardState = 'box' | 'rewards';
+
+const rewards = [
+  'Free Drink', 'Movie Ticket', '$10 Gift Card', 'Fitness Pass',
+  'Book Voucher', 'Spa Day', 'Concert Tickets', 'Restaurant Coupon'
+];
 
 const RewardsDashboard: React.FC = () => {
   const [rewardState, setRewardState] = useState<RewardState>('box');
+  const [selectedReward, setSelectedReward] = useState<number | null>(null);
+  const [showNotification, setShowNotification] = useState(false);
 
   const handleRewardClick = () => {
-    if (rewardState === 'box') {
-      setRewardState('turntable');
-    }
+    setRewardState('rewards');
+  };
+
+  const handleStartClick = () => {
+    const randomIndex = Math.floor(Math.random() * rewards.length);
+    setSelectedReward(randomIndex);
+    setTimeout(() => {
+      setShowNotification(true);
+    }, 1500);
+  };
+
+  const handleCloseNotification = () => {
+    setShowNotification(false);
+    // Reset to initial state
+    setRewardState('box');
+    setSelectedReward(null);
   };
 
   const renderReward = () => {
@@ -44,38 +64,50 @@ const RewardsDashboard: React.FC = () => {
             <CardGiftcard sx={{ fontSize: 50, color: 'white' }} />
           </Box>
         );
-      case 'turntable':
+      case 'rewards':
         return (
-          <Box 
-            sx={{ 
-              width: 200, 
-              height: 200, 
-              backgroundColor: '#4CAF50', 
-              borderRadius: '50%',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'relative',
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '10px',
-                height: '10px',
-                backgroundColor: 'white',
-                borderRadius: '50%'
-              }
-            }}
-          >
-            <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold' }}>
-              Spin to Win!
-            </Typography>
+          <Box sx={{ width: '100%' }}>
+            <Grid container spacing={2}>
+              {rewards.map((reward, index) => (
+                <Grid item xs={4} key={index}>
+                  {index === 4 ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleStartClick}
+                      disabled={selectedReward !== null}
+                      sx={{ 
+                        height: '100%', 
+                        width: '100%',
+                        fontSize: '1.2rem',
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      Start
+                    </Button>
+                  ) : (
+                    <Box
+                      sx={{
+                        backgroundColor: selectedReward === index ? '#4CAF50' : '#035',
+                        p: 2,
+                        borderRadius: 2,
+                        height: '100%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        transition: 'background-color 0.3s',
+                      }}
+                    >
+                      <Typography variant="body2" align="center">
+                        {reward}
+                      </Typography>
+                    </Box>
+                  )}
+                </Grid>
+              ))}
+            </Grid>
           </Box>
         );
-      default:
-        return null;
     }
   };
 
@@ -100,15 +132,56 @@ const RewardsDashboard: React.FC = () => {
         </Typography>
       </Box>
       
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 250 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 250 }}>
         {renderReward()}
       </Box>
       
-      {rewardState === 'turntable' && (
-        <Typography variant="h6" sx={{ textAlign: 'center', mt: 2 }}>
-          Rewards
-        </Typography>
-      )}
+      <Modal
+        open={showNotification}
+        onClose={handleCloseNotification}
+        closeAfterTransition
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Fade in={showNotification}>
+          <Box
+            sx={{
+              backgroundColor: 'white',
+              borderRadius: 4,
+              boxShadow: 24,
+              p: 4,
+              maxWidth: 400,
+              textAlign: 'center',
+              position: 'relative',
+            }}
+          >
+            <Button
+              onClick={handleCloseNotification}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: 'grey.500',
+              }}
+            >
+              <CloseIcon />
+            </Button>
+            <Typography variant="h5" component="h2" sx={{ mb: 2, color: '#4CAF50' }}>
+              Congratulations!
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 3, color: 'text.primary' }}>
+              You've won:
+            </Typography>
+            <Typography variant="h4" component="p" sx={{ fontWeight: 'bold', color: '#024' }}>
+              {selectedReward !== null ? rewards[selectedReward] : ''}
+            </Typography>
+            <CardGiftcard sx={{ fontSize: 60, color: 'pink', mt: 3 }} />
+          </Box>
+        </Fade>
+      </Modal>
     </Box>
   );
 };

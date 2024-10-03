@@ -4,6 +4,7 @@ import GoogleMaps from './pages/Map/Map';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 import RewardsPage from './pages/RewardsPage/RewardsPage';
+import Reset from './pages/Reset/Reset'; 
 import './styles/Global.css';
 import BackButton from './components/BackButton/BackButton';
 import SGTitle from './components/SGTitle/SGTitle';
@@ -33,6 +34,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/reward" element={<RewardsPage />} />
+              <Route path="/reset-password" element={<Reset />} /> 
             </Routes>
           </main>
         </div>

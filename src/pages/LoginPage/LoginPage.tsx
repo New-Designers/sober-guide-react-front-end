@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FaApple, FaGoogle, FaEnvelope } from 'react-icons/fa';
 import Button from '@mui/material/Button';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const formRef = useRef<HTMLDivElement>(null);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Implement login logic here
+    console.log('Login attempted with:', { username, password });
+    // If login is successful, you might want to navigate to a different page
+    // navigate('/dashboard');
+  };
+
+  // Scroll function
+  useEffect(() => {
+    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, [username, password]);
 
   return (
     <div style={{
@@ -18,9 +33,10 @@ const LoginPage: React.FC = () => {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       fontFamily: '"Courier New", Courier, monospace',
-      padding: '0 50px 200px 50px',
+      padding: '0 50px 50px 50px',
+      overflowY: 'auto',
     }}>
-      <div style={{
+      <div ref={formRef} style={{
         width: '100%',
         maxWidth: '414px',
         padding: '2rem',
@@ -31,6 +47,7 @@ const LoginPage: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        marginBottom: '20px',
       }}>
         <div style={{
           display: 'flex',
@@ -50,30 +67,42 @@ const LoginPage: React.FC = () => {
           }}>Welcome Back</h2>
         </div>
 
-        <form style={{
+        <form onSubmit={handleSubmit} style={{
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
           gap: '1rem',
         }}>
-          <input type="text" placeholder="Username" style={{
-            width: '100%',
-            padding: '0.75rem',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '0.25rem',
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            color: 'white',
-            fontSize: '1rem',
-          }} />
-          <input type="password" placeholder="Password" style={{
-            width: '100%',
-            padding: '0.75rem',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '0.25rem',
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            color: 'white',
-            fontSize: '1rem',
-          }} />
+          <input 
+            type="text" 
+            placeholder="Username" 
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '0.25rem',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              color: 'white',
+              fontSize: '1rem',
+            }} 
+          />
+          <input 
+            type="password" 
+            placeholder="Password" 
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '0.25rem',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              color: 'white',
+              fontSize: '1rem',
+            }} 
+          />
           <Button 
             type="submit" 
             variant="contained" 
@@ -92,7 +121,7 @@ const LoginPage: React.FC = () => {
         }}>
           <Link to="/register" style={{ color: '#10B981', textDecoration: 'none', fontSize: '1rem' }}>Register</Link>
           <span style={{ margin: '0 0.75rem', color: 'white' }}>|</span>
-          <a href="#" style={{ color: '#10B981', textDecoration: 'none', fontSize: '1rem' }}>Forgot password?</a>
+          <Link to="/reset-password" style={{ color: '#10B981', textDecoration: 'none', fontSize: '1rem' }}>Forgot password?</Link>
         </div>
 
         <div style={{
@@ -106,7 +135,7 @@ const LoginPage: React.FC = () => {
             justifyContent: 'center',
             gap: '1.5rem',
           }}>
-            {['apple', 'google', 'envelope'].map((icon, index) => (
+            {['apple', 'google', 'envelope'].map((icon) => (
               <a key={icon} href="#" style={{
                 display: 'flex',
                 justifyContent: 'center',
