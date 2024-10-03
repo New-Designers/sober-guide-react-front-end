@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Modal, Fade } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { CardGiftcard, Close as CloseIcon } from '@mui/icons-material';
+import { Close as CloseIcon } from '@mui/icons-material';
+
+// Remove the CardGiftcard import since we're not using it anymore
 
 const data = [
   { date: 'Aug 13', drinks: 6 },
@@ -83,15 +85,24 @@ const RewardsDashboard: React.FC = () => {
               justifyContent: 'center', 
               alignItems: 'center',
               cursor: 'pointer',
-              borderRadius: '10px'
+              borderRadius: '10px',
+              marginBottom:'100px'
             }}
           >
-            <CardGiftcard sx={{ fontSize: 50, color: 'white' }} />
+            <img 
+              src="src\assets\gift.png" 
+              alt="Gift Box" 
+              style={{ 
+                width: '100%', 
+                height: '100%', 
+                objectFit: 'contain' 
+              }} 
+            />
           </Box>
         );
       case 'rewards':
         return (
-          <Box sx={{ width: '100%' }}>
+          <Box sx={{ width: '100%' , marginBottom:'100px'}}>
             <Grid container spacing={2}>
               {rewards.map((reward, index) => (
                 <Grid item xs={4} key={index}>
@@ -151,7 +162,7 @@ const RewardsDashboard: React.FC = () => {
       }}
     >
       <Typography variant="h6" gutterBottom>WEEKLY ALCOHOL INTAKE</Typography>
-      <Box sx={{ height: 250, mb: 2 }}>
+      <Box sx={{ height: 250, mb: 1 }}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -163,7 +174,7 @@ const RewardsDashboard: React.FC = () => {
         </ResponsiveContainer>
       </Box>
       
-      <Box sx={{ backgroundColor: '#035', p: 2, borderRadius: 2, mb: 2 }}>
+      <Box sx={{ backgroundColor: '#035', p: 2, borderRadius: 2, mb: 1 }}>
         <Typography variant="body2" align="center">
           You have reduced social drinking for 7 consecutive days, and now you're being rewarded.
         </Typography>
@@ -216,7 +227,15 @@ const RewardsDashboard: React.FC = () => {
             <Typography variant="h4" component="p" sx={{ fontWeight: 'bold', color: '#024' }}>
               {selectedReward !== null ? rewards[selectedReward] : ''}
             </Typography>
-            <CardGiftcard sx={{ fontSize: 60, color: 'pink', mt: 3 }} />
+            <img 
+              src="src\assets\gift.png" 
+              alt="Gift" 
+              style={{ 
+                width: 60, 
+                height: 60, 
+                marginTop: '1rem' 
+              }} 
+            />
           </Box>
         </Fade>
       </Modal>
