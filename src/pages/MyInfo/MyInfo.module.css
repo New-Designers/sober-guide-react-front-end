@@ -1,0 +1,41 @@
+.userContainer {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 250px;
+  }
+  
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .name {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  
+  .healthContainer {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 300px;
+  }
+  
+  .healthItem {
+    margin-bottom: 8px;
+  }
+  
+  .healthLabel {
+    font-weight: bold;
+  }
+  
+  .healthValue {
+    color: #666;
+  }
+  

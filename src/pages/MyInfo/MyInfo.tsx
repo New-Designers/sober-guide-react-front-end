@@ -4,7 +4,7 @@ import HealthInfo from './components/HealthInfo/HealthInfo';
 
 const MyInfo: React.FC = () => {
   const userData = {
-    avatarUrl: 'https://example.com/avatar.jpg',
+    avatarUrl: '../../../src/assets/user.jpg',
     name: 'Raymond Zhu',
   };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './SelfRecord.module.css';
+import styles from '../../MyInfo.module.css';
 
 interface HealthInfoProps {
   age: number;
