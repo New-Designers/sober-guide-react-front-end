@@ -7,8 +7,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     https: {
-      key: fs.readFileSync(path.resolve(__dirname, 'certs/10.89.170.255-key.pem')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'certs/10.89.170.255.pem')),
+      key: fs.readFileSync(path.resolve(__dirname, 'certs/localhost-key.pem')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'certs/localhost.pem')),
     },
     port: 5173, // Set the port to 5173
     host: '0.0.0.0', // Use your local IP address
