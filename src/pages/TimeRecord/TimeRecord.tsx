@@ -38,7 +38,7 @@ const TimeTrackingRecord: React.FC = () => {
       sx={{ 
         backgroundColor: '#01344A', 
         minHeight: '100vh',
-        padding: '0 50px 70px 50px', // Increased bottom padding to accommodate pagination
+        padding: '0 100px 150px 50px', // Increased bottom padding to accommodate pagination
         color: 'white',
         fontFamily: '"Courier New", Courier, monospace',
         display: 'flex',
