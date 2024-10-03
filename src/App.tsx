@@ -32,8 +32,8 @@ function App() {
           </header>
           <main className="content">
             <Routes>
-              <Route path="/" element={<GoogleMaps apiKey={apiKey} />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/" element={<GoogleMaps apiKey={apiKey} />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/reward" element={<RewardsPage />} />
               <Route path="/reset-password" element={<Reset />} /> 

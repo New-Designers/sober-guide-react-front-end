@@ -113,7 +113,7 @@ const NavBar: React.FC = () => {
               key={item.text}
               in={isNavOpen}
               style={{ transformOrigin: 'top' }}
-              timeout={(index + 1) * 177}
+              timeout={(index + 1) * 200}
             >
               <ListItemButton
                 sx={{
