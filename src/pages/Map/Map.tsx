@@ -234,63 +234,143 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
             )}
             
             {showTimer && (
-                <div style={{ marginBottom: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <h3>Timer: {formatTime(elapsedSeconds)}</h3>
-                    <div style={{ textAlign: 'center' }}>
-                        <div>Begin at: {beginTime}</div>
+                <div style={{ 
+                    marginBottom: '10px', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'center',
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background
+                    padding: '15px',
+                    borderRadius: '10px',
+                    width: '100%', // Full width on mobile
+                    maxWidth: '300px' // Max width for larger screens
+                }}>
+                    <h3 style={{
+                        fontSize: '24px', // Larger font size
+                        color: '#ffffff', // White text
+                        marginBottom: '10px'
+                    }}>Timer: {formatTime(elapsedSeconds)}</h3>
+                    <div style={{ textAlign: 'center', color: '#ffffff' }}>
+                        <div style={{ marginBottom: '5px' }}>Begin at: {beginTime}</div>
                         <div>End at: {endTime}</div>
                     </div>
-                    <div>
+                    <div style={{ marginTop: '10px' }}>
                         {!timerActive ? (
-                            <button onClick={startTimer} style={{ marginRight: '10px' }}><FaStopwatch /> Start</button>
+                            <Button 
+                                variant="contained" 
+                                color="primary" 
+                                onClick={startTimer} 
+                                startIcon={<FaStopwatch />}
+                                style={{ marginRight: '10px' }}
+                            >
+                                Start
+                            </Button>
                         ) : (
-                            <button onClick={stopTimer} style={{ marginRight: '10px' }}><FaStopwatch /> End</button>
+                            <Button 
+                                variant="contained" 
+                                color="secondary" 
+                                onClick={stopTimer} 
+                                startIcon={<FaStopwatch />}
+                                style={{ marginRight: '10px' }}
+                            >
+                                End
+                            </Button>
                         )}
                     </div>
                 </div>
             )}
     
-            {showAccumulatedTime && (
+    {showAccumulatedTime && (
                 <div style={{ marginBottom: '10px', textAlign: 'center', width: '100%' }}>
-                    <div style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
-                        <h4 style={{ fontSize: '1.5em' }}>Total Time: {formatTime(elapsedSeconds)}</h4>
+                    <div style={{ 
+                        border: '1px solid #ccc', 
+                        padding: '15px', 
+                        marginBottom: '10px',
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        borderRadius: '10px'
+                    }}>
+                        <h4 style={{ 
+                            fontSize: '24px',
+                            color: '#ffffff'
+                        }}>Total Time: {formatTime(elapsedSeconds)}</h4>
                     </div>
-                    <button onClick={recommendActivities}><FaList /> Recommend Activities</button>
+                    <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={recommendActivities}
+                        startIcon={<FaList />}
+                    >
+                        Recommend Activities
+                    </Button>
                 </div>
             )}
+
     
-            {recommendedPlaces.length > 0 && (
-                <div style={{ marginBottom: '10px', textAlign: 'center', width: '100%' }}>
-                    <h4>Recommended Activities Near You</h4>
-                    <ul style={{ listStyleType: 'none', padding: 0 }}>
+{recommendedPlaces.length > 0 && (
+                <div style={{ 
+                    marginBottom: '10px', 
+                    textAlign: 'center', 
+                    width: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    padding: '15px',
+                    borderRadius: '10px'
+                }}>
+                    <h4 style={{ 
+                        fontSize: '20px', 
+                        color: '#ffffff', 
+                        marginBottom: '10px'
+                    }}>Recommended Activities Near You</h4>
+                    <ul style={{ 
+                        listStyleType: 'none', 
+                        padding: 0, 
+                        color: '#ffffff'
+                    }}>
                         {recommendedPlaces.map((place, index) => (
-                            <li key={index} style={{ marginBottom: '5px' }}>
+                            <li key={index} style={{ marginBottom: '5px', fontSize: '16px' }}>
                                 {place.name} - {place.rating || "No rating"} stars
                             </li>
                         ))}
                     </ul>
                 </div>
             )}
-    
-            {!showTimer && !showAccumulatedTime && (
-                <Button variant="contained" color="success"
-                sx={{
-                width: '90%',  // Set width to 90% of the parent container
-                margin: '0 auto',  // Center the button horizontally
-                display: 'block',  // Ensure the button behaves like a block element
-              }} onClick={confirmLocation} disabled={locationInput.trim() === ""} style={{ marginBottom: '10px' }}>
-                    <FaClock /> Confirm
+
+            {!showTimer && !showAccumulatedTime && recommendedPlaces.length === 0 && (
+                <Button 
+                    variant="contained" 
+                    color="success"
+                    sx={{
+                        width: '90%',
+                        margin: '0 auto',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '10px',
+                        height: '48px',
+                        fontSize: '1rem'
+                    }} 
+                    onClick={confirmLocation} 
+                    disabled={locationInput.trim() === ""}
+                    startIcon={<FaClock />}
+                >
+                    Confirm
                 </Button>
             )}
-    
             
-            <Button variant="contained" color="success"
-        sx={{
-        width: '90%',  // Set width to 90% of the parent container
-        margin: '0 auto',  // Center the button horizontally
-        display: 'block',  // Ensure the button behaves like a block element
-        marginBottom:'100px'
-      }} onClick={resetPage}>Reset</Button>
+            <Button 
+                variant="contained" 
+                color="success"
+                sx={{
+                    width: '90%',
+                    margin: '0 auto',
+                    display: 'block',
+                    marginBottom: '100px',
+                    height: '48px',
+                    fontSize: '1rem'
+                }} 
+                onClick={resetPage}
+            >
+                Reset
+            </Button>
         </div>
     );
 };

@@ -10,7 +10,7 @@ import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
 import { keyframes, styled } from '@mui/system';
-
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 interface NavItem {
   text: string;
   icon: React.ReactNode;
@@ -82,6 +82,7 @@ const NavBar: React.FC = () => {
     { text: 'Rewards', icon: <EmojiEventsIcon />, path: '/reward' },
     { text: 'Tips', icon: <TipsAndUpdatesIcon />, path: '/health-tips' },
     { text: 'Places', icon: <TourIcon />, path: '/tour' },
+    { text: 'Records', icon: <AccessTimeIcon />, path: '/time-tracking' },
   ];
 
   return (
