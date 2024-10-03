@@ -80,8 +80,8 @@ const NavBar: React.FC = () => {
     { text: 'My Info', icon: <MedicalInformationOutlinedIcon />, path: '/my-info' },
     { text: 'Map', icon: <MapIcon />, path: '/' },
     { text: 'Rewards', icon: <EmojiEventsIcon />, path: '/reward' },
-    { text: 'Tips', icon: <TipsAndUpdatesIcon />, path: '/health-tips' },
-    { text: 'Places', icon: <TourIcon />, path: '/tour' },
+    { text: 'Tips', icon: <TipsAndUpdatesIcon />, path: '/' },
+    { text: 'Places', icon: <TourIcon />, path: '/' },
     { text: 'Records', icon: <AccessTimeIcon />, path: '/time-tracking' },
   ];
 
