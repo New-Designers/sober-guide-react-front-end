@@ -11,6 +11,7 @@ import WidgetsIcon from '@mui/icons-material/Widgets';
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
 import { keyframes, styled } from '@mui/system';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import HomeIcon from '@mui/icons-material/Home';
 interface NavItem {
   text: string;
   icon: React.ReactNode;
@@ -76,6 +77,7 @@ const NavBar: React.FC = () => {
   }, [isNavOpen]);
 
   const navItems: NavItem[] = [
+    { text: 'Home', icon: <HomeIcon />, path: '/' }, // Add Home item
     { text: 'Account', icon: <AccountCircleIcon />, path: '/login' },
     { text: 'My Info', icon: <MedicalInformationOutlinedIcon />, path: '/my-info' },
     { text: 'Map', icon: <MapIcon />, path: '/' },

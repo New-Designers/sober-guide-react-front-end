@@ -1,11 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/Home/Home'; // Import the new HomePage component
 import GoogleMaps from './pages/Map/Map';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 import RewardsPage from './pages/RewardsPage/RewardsPage';
 import Reset from './pages/Reset/Reset'; 
-import TimeTrackingRecord from './pages/TimeRecord/TimeRecord'; // Import the new component
+import TimeTrackingRecord from './pages/TimeRecord/TimeRecord';
 import './styles/Global.css';
 import BackButton from './components/BackButton/BackButton';
 import SGTitle from './components/SGTitle/SGTitle';
@@ -32,12 +33,13 @@ function App() {
           </header>
           <main className="content">
             <Routes>
+              <Route path="/" element={<HomePage />} /> {/* Set HomePage as the root route */}
+              <Route path="/map" element={<GoogleMaps apiKey={apiKey} />} /> {/* Move GoogleMaps to /map route */}
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/" element={<GoogleMaps apiKey={apiKey} />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/reward" element={<RewardsPage />} />
               <Route path="/reset-password" element={<Reset />} /> 
-              <Route path="/time-tracking" element={<TimeTrackingRecord />} /> {/* Add this new route */}
+              <Route path="/time-tracking" element={<TimeTrackingRecord />} />
               <Route path="/my-info" element={<MyInfo />} />
             </Routes>
           </main>
