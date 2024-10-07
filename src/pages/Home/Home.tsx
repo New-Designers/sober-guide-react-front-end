@@ -1,7 +1,14 @@
-import React from 'react';
-import { Box, Typography, Card, CardContent, Grid, Paper } from '@mui/material';
+import React, { useState, useCallback } from 'react';
+import { Box, Typography, Card, CardContent, Grid, Paper, Button } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import CloudIcon from '@mui/icons-material/Cloud';
+
+// Mock data for three weeks
+const weeklyData = [
+  { week: 'Two Weeks Ago', totalIntake: 1.2, limit: 2 },
+  { week: 'Last Week', totalIntake: 0.8, limit: 2 },
+  { week: 'Current Week', totalIntake: 0.5, limit: 2 },
+];
 
 const data = [
   { name: 'Week 1', intake: 90 },
@@ -21,7 +28,7 @@ const BottleShape: React.FC<{ fillPercentage: number; remainingAmount: number }>
     border: '4px solid #2196f3', 
     borderRadius: '0 0 40px 40px', 
     overflow: 'hidden',
-    backgroundColor: 'white', // Add white background
+    backgroundColor: 'white',
   }}>
     <Box
       sx={{
@@ -75,10 +82,21 @@ const BottleShape: React.FC<{ fillPercentage: number; remainingAmount: number }>
 );
 
 const HomePage: React.FC = () => {
-  const totalWeeklyIntake = 0.5; // 0.5L consumed
-  const weeklyLimit = 2; // 2L limit
-  const remainingAmount = weeklyLimit - totalWeeklyIntake;
-  const intakePercentage = (totalWeeklyIntake / weeklyLimit) * 100;
+  const [selectedWeek, setSelectedWeek] = useState(2); // Default to current week
+
+  const handleWeekChange = useCallback((index: number) => {
+    console.log('Button clicked:', index);
+    setSelectedWeek(prevWeek => {
+      console.log('Updating selectedWeek from', prevWeek, 'to', index);
+      return index;
+    });
+  }, []);
+
+  console.log('Rendering with selectedWeek:', selectedWeek);
+
+  const selectedData = weeklyData[selectedWeek];
+  const remainingAmount = selectedData.limit - selectedData.totalIntake;
+  const intakePercentage = (selectedData.totalIntake / selectedData.limit) * 100;
 
   return (
     <Box sx={{ bgcolor: '#013440', color: 'white', minHeight: '100vh', padding: 2 }}>
@@ -96,17 +114,32 @@ const HomePage: React.FC = () => {
         </Box>
       </Paper>
 
+      {/* Week Selection Buttons */}
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+        {weeklyData.map((week, index) => (
+          <Button
+            key={week.week}
+            variant={selectedWeek === index ? "contained" : "outlined"}
+            color="primary"
+            onClick={() => handleWeekChange(index)}
+            
+          >
+            {week.week}
+          </Button>
+        ))}
+      </Box>
+
       {/* Alcohol Intake Information */}
       <Paper elevation={3} sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', p: 2, mb: 2, borderRadius: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="body2">Weekly Limit</Typography>
-            <Typography variant="h4" sx={{ color: '#4CAF50' }}>{weeklyLimit}L</Typography>
+            <Typography variant="h4" sx={{ color: '#4CAF50' }}>{selectedData.limit}L</Typography>
           </Box>
           <BottleShape fillPercentage={intakePercentage} remainingAmount={remainingAmount} />
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="body2">Current Intake</Typography>
-            <Typography variant="h4" sx={{ color: '#FF9800' }}>{totalWeeklyIntake}L</Typography>
+            <Typography variant="h4" sx={{ color: '#FF9800' }}>{selectedData.totalIntake}L</Typography>
           </Box>
         </Box>
       </Paper>
