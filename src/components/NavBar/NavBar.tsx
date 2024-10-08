@@ -12,6 +12,7 @@ import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformati
 import { keyframes, styled } from '@mui/system';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import HomeIcon from '@mui/icons-material/Home';
+
 interface NavItem {
   text: string;
   icon: React.ReactNode;
@@ -77,10 +78,10 @@ const NavBar: React.FC = () => {
   }, [isNavOpen]);
 
   const navItems: NavItem[] = [
-    { text: 'Home', icon: <HomeIcon />, path: '/' }, // Add Home item
+    { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'Account', icon: <AccountCircleIcon />, path: '/login' },
     { text: 'My Info', icon: <MedicalInformationOutlinedIcon />, path: '/my-info' },
-    { text: 'Map', icon: <MapIcon />, path: '/' },
+    { text: 'Map', icon: <MapIcon />, path: '/map' },
     { text: 'Rewards', icon: <EmojiEventsIcon />, path: '/reward' },
     { text: 'Tips', icon: <TipsAndUpdatesIcon />, path: '/' },
     { text: 'Places', icon: <TourIcon />, path: '/' },
@@ -89,7 +90,7 @@ const NavBar: React.FC = () => {
 
   return (
     <Box sx={{ width: '100%' }} ref={navRef}>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', margin: '0 2 2 0' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', margin: '0 2px 2px 0' }}>
         <AnimatedIconButton
           onClick={toggleNav}
           className={isNavOpen ? 'active' : ''}
@@ -108,13 +109,26 @@ const NavBar: React.FC = () => {
           )}
         </AnimatedIconButton>
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
+      <Box 
+        sx={{ 
+          display: isNavOpen ? 'flex' : 'none',
+          flexDirection: 'column',
+          marginTop: 2,
+          position: 'absolute',
+          right: 0,
+          top: '40px',
+          backgroundColor: 'rgba(1, 52, 64, 0.9)',
+          borderRadius: '0 0 0 10px',
+          padding: '10px',
+          zIndex: 1000,
+        }}
+      >
         <List>
           {navItems.map((item, index) => (
             <Grow
               key={item.text}
               in={isNavOpen}
-              style={{ transformOrigin: 'top' }}
+              style={{ transformOrigin: 'top right' }}
               timeout={(index + 1) * 200}
             >
               <ListItemButton
@@ -147,6 +161,7 @@ const NavBar: React.FC = () => {
                 />
               </ListItemButton>
             </Grow>
+            
           ))}
         </List>
       </Box>
