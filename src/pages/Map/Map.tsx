@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FaClock, FaStopwatch, FaList, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaClock, FaStopwatch, FaList, FaMapMarkerAlt, FaWineBottle } from 'react-icons/fa';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 
 type GoogleMapsProps = {
     apiKey: string;
@@ -20,6 +22,9 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
     const [recommendedPlaces, setRecommendedPlaces] = useState<google.maps.places.PlaceResult[]>([]);
     const [locationInput, setLocationInput] = useState('');
     const [locationError, setLocationError] = useState<string | null>(null);
+    const [alcoholIntake, setAlcoholIntake] = useState('');
+    const [dataSubmitted, setDataSubmitted] = useState(false);
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
     useEffect(() => {
         const loadGoogleMapsScript = () => {
@@ -53,7 +58,6 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         newAutocomplete.addListener("place_changed", () => onPlaceChanged(newAutocomplete, newMap));
         setAutocomplete(newAutocomplete);
 
-        // Attempt to get user's location
         getUserLocation(newMap);
     };
 
@@ -168,10 +172,11 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         setEndTime('--:--:--');
         setRecommendedPlaces([]);
         setLocationInput('');
+        setAlcoholIntake('');
+        setDataSubmitted(false);
     };
 
     const recommendActivities = () => {
-        setShowAccumulatedTime(false);
         if (map) {
             const service = new google.maps.places.PlacesService(map);
             const types = ['gym', 'shopping_mall'];
@@ -201,6 +206,29 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         }
     };
 
+    const handleAlcoholIntakeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        if (value === '' || (Number(value) >= 0 && Number(value) <= 10000)) {
+            setAlcoholIntake(value);
+            setIsSubmitDisabled(value === '' || Number(value) === 0 || Number(value) > 10000);
+        }
+    };
+
+    const submitData = () => {
+        if (alcoholIntake === '' || Number(alcoholIntake) === 0 || Number(alcoholIntake) > 10000) {
+            return; // Early return if validation fails
+        }
+        const data = {
+            location: locationInput,
+            totalTime: formatTime(elapsedSeconds),
+            alcoholIntake: alcoholIntake
+        };
+        console.log("Collected data:", data);
+        // Here you would typically send this data to your backend
+        setDataSubmitted(true);
+        recommendActivities();
+    };
+
     useEffect(() => {
         let interval: number | undefined;
         if (timerActive) {
@@ -212,7 +240,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
     }, [timerActive]);
 
     return (
-        <div style={{ height: '100vh',width:'100%', display: 'flex', flexDirection: 'column', padding: '0 65px 50px 50px', alignItems: 'center' }}>
+        <div style={{ height: '90vh', width:'100%', display: 'flex', flexDirection: 'column', padding: '0 65px 50px 50px', alignItems: 'center' }}>
             <div style={{ display: 'flex', marginBottom: '10px', width: '120%', justifyContent: 'center' }}>
                 <input
                     ref={inputRef}
@@ -225,7 +253,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                     <FaMapMarkerAlt /> Locate
                 </button>
             </div>
-            <div ref={mapRef} style={{ flex: 1, width: '120%', marginBottom: '10px' }} />
+            <div ref={mapRef} style={{ flex: 1, width: '120%', marginBottom: '10px', height: '60vh' }} />
             
             {locationError && (
                 <div style={{ color: 'red', padding: '10px', marginBottom: '10px', textAlign: 'center', width: '100%' }}>
@@ -233,21 +261,21 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                 </div>
             )}
             
-            {showTimer && (
+            {showTimer && !dataSubmitted && (
                 <div style={{ 
                     marginBottom: '10px', 
                     display: 'flex', 
                     flexDirection: 'column', 
                     alignItems: 'center',
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
                     padding: '15px',
                     borderRadius: '10px',
-                    width: '100%', // Full width on mobile
-                    maxWidth: '300px' // Max width for larger screens
+                    width: '100%',
+                    maxWidth: '300px'
                 }}>
                     <h3 style={{
-                        fontSize: '24px', // Larger font size
-                        color: '#ffffff', // White text
+                        fontSize: '24px',
+                        color: '#ffffff',
                         marginBottom: '10px'
                     }}>Timer: {formatTime(elapsedSeconds)}</h3>
                     <div style={{ textAlign: 'center', color: '#ffffff' }}>
@@ -280,7 +308,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                 </div>
             )}
     
-    {showAccumulatedTime && (
+            {showAccumulatedTime && !dataSubmitted && (
                 <div style={{ marginBottom: '10px', textAlign: 'center', width: '100%' }}>
                     <div style={{ 
                         border: '1px solid #ccc', 
@@ -294,19 +322,67 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                             color: '#ffffff'
                         }}>Total Time: {formatTime(elapsedSeconds)}</h4>
                     </div>
+                    <TextField
+                        label="Alcohol Intake"
+                        variant="outlined"
+                        value={alcoholIntake}
+                        onChange={handleAlcoholIntakeChange}
+                        placeholder="Enter volume (0-10000)"
+                        type="number"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <FaWineBottle style={{ color: '#ffffff' }} />
+                                </InputAdornment>
+                            ),
+                            endAdornment: <InputAdornment position="end" style={{ color: '#ffffff' }}>ml</InputAdornment>,
+                            inputProps: { min: 0, max: 10000 }
+                        }}
+                        InputLabelProps={{
+                            style: { color: '#ffffff' },
+                        }}
+                        style={{ 
+                            marginBottom: '10px', 
+                            width: '100%',
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                            borderRadius: '4px',
+                        }}
+                        sx={{
+                            input: { color: '#ffffff' },
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: '#ffffff',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: '#ffffff',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: '#ffffff',
+                                },
+                            },
+                        }}
+                    />
                     <Button 
                         variant="contained" 
                         color="primary" 
-                        onClick={recommendActivities}
+                        onClick={submitData}
                         startIcon={<FaList />}
+                        sx={{
+                            width: '90%',
+                            margin: '0 auto',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            marginBottom: '10px',
+                            height: '48px',
+                            fontSize: '1rem'
+                        }}
                     >
-                        Recommend Activities
+                        Submit
                     </Button>
                 </div>
             )}
-
     
-{recommendedPlaces.length > 0 && (
+            {recommendedPlaces.length > 0 && dataSubmitted && (
                 <div style={{ 
                     marginBottom: '10px', 
                     textAlign: 'center', 
