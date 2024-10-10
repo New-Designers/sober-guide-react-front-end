@@ -3,8 +3,6 @@ import { Box, Typography, Button, Grid, Modal, Fade } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Close as CloseIcon } from '@mui/icons-material';
 
-// Remove the CardGiftcard import since we're not using it anymore
-
 const data = [
   { date: 'Aug 13', drinks: 6 },
   { date: 'Aug 14', drinks: 5 },
@@ -17,16 +15,28 @@ const data = [
 
 type RewardState = 'box' | 'rewards';
 
-const rewards = [
-  'Free Drink', 'Movie Ticket', '$10 Gift Card', 'Fitness Pass',
-  'Book Voucher', 'Spa Day', 'Concert Tickets', 'Restaurant Coupon'
-];
+interface Reward {
+  id: number;
+  description: string;
+  cover: string;
+}
 
 const RewardsDashboard: React.FC = () => {
   const [rewardState, setRewardState] = useState<RewardState>('box');
   const [selectedReward, setSelectedReward] = useState<number | null>(null);
   const [showNotification, setShowNotification] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [rewards, setRewards] = useState<Reward[]>([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/rewards')
+      .then(response => response.json())
+      .then(data => {
+        console.log("Rewards data:", data);
+        setRewards(data);
+      })
+      .catch(error => console.error("Error fetching data:", error));
+  }, []);
 
   const handleRewardClick = () => {
     setRewardState('rewards');
@@ -42,18 +52,15 @@ const RewardsDashboard: React.FC = () => {
 
   const handleCloseNotification = () => {
     setShowNotification(false);
-    // Reset to initial state
     setRewardState('box');
     setSelectedReward(null);
   };
 
-  // Scroll function
   useEffect(() => {
     const handleScroll = () => {
       if (contentRef.current) {
         const { scrollTop, scrollHeight, clientHeight } = contentRef.current;
         if (scrollTop + clientHeight >= scrollHeight - 10) {
-          // User has scrolled to the bottom
           console.log('Reached the bottom of the page');
         }
       }
@@ -105,7 +112,7 @@ const RewardsDashboard: React.FC = () => {
           <Box sx={{ width: '100%' , marginBottom:'100px'}}>
             <Grid container spacing={2}>
               {rewards.map((reward, index) => (
-                <Grid item xs={4} key={index}>
+                <Grid item xs={4} key={reward.id}>
                   {index === 4 ? (
                     <Button
                       variant="contained"
@@ -130,14 +137,20 @@ const RewardsDashboard: React.FC = () => {
                         borderRadius: 2,
                         height: '100%',
                         display: 'flex',
+                        flexDirection: 'column',
                         justifyContent: 'center',
                         alignItems: 'center',
                         transition: 'background-color 0.3s',
                       }}
                     >
-                      <Typography variant="body2" align="center" sx={{ fontSize: '0.8rem' }}>
-                        {reward}
+                      <Typography variant="body2" align="center" sx={{ fontSize: '0.8rem', marginBottom: '5px' }}>
+                        {reward.description}
                       </Typography>
+                      <img 
+                        src={`http://localhost:9008/${reward.cover}`} 
+                        alt={reward.description} 
+                        style={{ width: '50px', height: '50px', objectFit: 'contain' }}
+                      />
                     </Box>
                   )}
                 </Grid>
@@ -225,17 +238,20 @@ const RewardsDashboard: React.FC = () => {
               You've won:
             </Typography>
             <Typography variant="h4" component="p" sx={{ fontWeight: 'bold', color: '#024' }}>
-              {selectedReward !== null ? rewards[selectedReward] : ''}
+              {selectedReward !== null && rewards[selectedReward] ? rewards[selectedReward].description : ''}
             </Typography>
-            <img 
-              src="src\assets\gift.png" 
-              alt="Gift" 
-              style={{ 
-                width: 60, 
-                height: 60, 
-                marginTop: '1rem' 
-              }} 
-            />
+            {selectedReward !== null && rewards[selectedReward] && (
+              <img 
+                src={`http://localhost:9008/${rewards[selectedReward].cover}`}
+                alt="Reward" 
+                style={{ 
+                  width: 60, 
+                  height: 60, 
+                  marginTop: '1rem',
+                  objectFit: 'contain'
+                }} 
+              />
+            )}
           </Box>
         </Fade>
       </Modal>
