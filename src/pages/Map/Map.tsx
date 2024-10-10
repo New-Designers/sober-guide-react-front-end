@@ -3,10 +3,19 @@ import { FaClock, FaStopwatch, FaList, FaMapMarkerAlt, FaWineBottle } from 'reac
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 type GoogleMapsProps = {
     apiKey: string;
 };
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
     const mapRef = useRef<HTMLDivElement>(null);
@@ -25,6 +34,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
     const [alcoholIntake, setAlcoholIntake] = useState('');
     const [dataSubmitted, setDataSubmitted] = useState(false);
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
 
     useEffect(() => {
         const loadGoogleMapsScript = () => {
@@ -174,6 +184,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         setLocationInput('');
         setAlcoholIntake('');
         setDataSubmitted(false);
+        setIsSubmitDisabled(true);
     };
 
     const recommendActivities = () => {
@@ -214,6 +225,13 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         }
     };
 
+    const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
+    };
+
     const submitData = () => {
         if (alcoholIntake === '' || Number(alcoholIntake) === 0 || Number(alcoholIntake) > 10000) {
             return; // Early return if validation fails
@@ -226,6 +244,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         console.log("Collected data:", data);
         // Here you would typically send this data to your backend
         setDataSubmitted(true);
+        setOpenSnackbar(true);
         recommendActivities();
     };
 
@@ -241,7 +260,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
 
     return (
         <div style={{ height: '90vh', width:'100%', display: 'flex', flexDirection: 'column', padding: '0 65px 50px 50px', alignItems: 'center' }}>
-            <div style={{ display: 'flex', marginBottom: '10px', width: '120%', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', marginBottom: '10px', width: '120%', justifyContent: 'center',marginTop:'2rem'}}>
                 <input
                     ref={inputRef}
                     value={locationInput}
@@ -327,7 +346,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                         variant="outlined"
                         value={alcoholIntake}
                         onChange={handleAlcoholIntakeChange}
-                        placeholder="Enter volume (0-10000)"
+                        placeholder="Enter volume (0-10000ml)"
                         type="number"
                         InputProps={{
                             startAdornment: (
@@ -367,11 +386,14 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                         color="primary" 
                         onClick={submitData}
                         startIcon={<FaList />}
+                        disabled={isSubmitDisabled}
                         sx={{
                             width: '90%',
                             margin: '0 auto',
                             display: 'flex',
                             flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center',
                             marginBottom: '10px',
                             height: '48px',
                             fontSize: '1rem'
@@ -447,6 +469,12 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
             >
                 Reset
             </Button>
+
+            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+                    Submit successfully, searching surrounding entertainments
+                </Alert>
+            </Snackbar>
         </div>
     );
 };
