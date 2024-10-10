@@ -5,6 +5,11 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 type GoogleMapsProps = {
     apiKey: string;
@@ -17,13 +22,16 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+const ONE_HOUR_IN_SECONDS = 10;
+
 const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
     const mapRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const [map, setMap] = useState<google.maps.Map | null>(null);
     const [, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
     const [timerActive, setTimerActive] = useState(false);
-    const [elapsedSeconds, setElapsedSeconds] = useState(0);
+    const [countdownTime, setCountdownTime] = useState<number | null>(null);
+    const [totalTime, setTotalTime] = useState(0);
     const [beginTime, setBeginTime] = useState('--:--:--');
     const [endTime, setEndTime] = useState('--:--:--');
     const [showTimer, setShowTimer] = useState(false);
@@ -35,6 +43,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
     const [dataSubmitted, setDataSubmitted] = useState(false);
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [openNotification, setOpenNotification] = useState(false);
 
     useEffect(() => {
         const loadGoogleMapsScript = () => {
@@ -153,9 +162,11 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
     };
 
     const startTimer = () => {
+        setCountdownTime(ONE_HOUR_IN_SECONDS);
         setTimerActive(true);
         setBeginTime(new Date().toLocaleTimeString());
         setEndTime('--:--:--');
+        setTotalTime(0);
     };
 
     const stopTimer = () => {
@@ -177,7 +188,8 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         setShowTimer(false);
         setShowAccumulatedTime(false);
         setTimerActive(false);
-        setElapsedSeconds(0);
+        setCountdownTime(null);
+        setTotalTime(0);
         setBeginTime('--:--:--');
         setEndTime('--:--:--');
         setRecommendedPlaces([]);
@@ -185,6 +197,19 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         setAlcoholIntake('');
         setDataSubmitted(false);
         setIsSubmitDisabled(true);
+    };
+
+    const handleNotificationResponse = (response: boolean) => {
+        setOpenNotification(false);
+        if (response) {
+            // User clicked "Yes", go to submit page
+            stopTimer();
+            setShowAccumulatedTime(true);
+        } else {
+            // User clicked "No", continue accumulating time
+            setTimerActive(true);
+            setCountdownTime(null);
+        }
     };
 
     const recommendActivities = () => {
@@ -238,7 +263,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         }
         const data = {
             location: locationInput,
-            totalTime: formatTime(elapsedSeconds),
+            totalTime: formatTime(totalTime),
             alcoholIntake: alcoholIntake
         };
         console.log("Collected data:", data);
@@ -252,11 +277,22 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         let interval: number | undefined;
         if (timerActive) {
             interval = window.setInterval(() => {
-                setElapsedSeconds(prev => prev + 1);
+                if (countdownTime !== null) {
+                    setCountdownTime(prevTime => {
+                        if (prevTime === null || prevTime <= 0) {
+                            clearInterval(interval);
+                            setOpenNotification(true);
+                            setTimerActive(false);
+                            return 0;
+                        }
+                        return prevTime - 1;
+                    });
+                }
+                setTotalTime(prevTotal => prevTotal + 1);
             }, 1000);
         }
         return () => clearInterval(interval);
-    }, [timerActive]);
+    }, [timerActive, countdownTime]);
 
     return (
         <div style={{ height: '90vh', width:'100%', display: 'flex', flexDirection: 'column', padding: '0 65px 50px 50px', alignItems: 'center' }}>
@@ -286,17 +322,25 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                     display: 'flex', 
                     flexDirection: 'column', 
                     alignItems: 'center',
+                    justifyContent: 'center',
                     backgroundColor: 'rgba(0, 0, 0, 0.7)',
                     padding: '15px',
                     borderRadius: '10px',
                     width: '100%',
-                    maxWidth: '300px'
+                    maxWidth: '300px',
+                    height: '200px',
                 }}>
                     <h3 style={{
                         fontSize: '24px',
                         color: '#ffffff',
-                        marginBottom: '10px'
-                    }}>Timer: {formatTime(elapsedSeconds)}</h3>
+                        marginBottom: '10px',
+                        textAlign: 'center',
+                    }}>
+                        {countdownTime !== null 
+                            ? `Countdown: ${formatTime(countdownTime)}`
+                            : `Total Time: ${formatTime(totalTime)}`
+                        }
+                    </h3>
                     <div style={{ textAlign: 'center', color: '#ffffff' }}>
                         <div style={{ marginBottom: '5px' }}>Begin at: {beginTime}</div>
                         <div>End at: {endTime}</div>
@@ -339,7 +383,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                         <h4 style={{ 
                             fontSize: '24px',
                             color: '#ffffff'
-                        }}>Total Time: {formatTime(elapsedSeconds)}</h4>
+                        }}>Total Time: {formatTime(totalTime)}</h4>
                     </div>
                     <TextField
                         label="Alcohol Intake"
@@ -469,6 +513,30 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
             >
                 Reset
             </Button>
+
+            <Dialog
+                open={openNotification}
+                onClose={() => handleNotificationResponse(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Time's Up!"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Your drink time ran out. Do you want to have a rest?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => handleNotificationResponse(false)} color="primary">
+                        No, continue timing
+                    </Button>
+                    <Button onClick={() => handleNotificationResponse(true)} color="primary" autoFocus>
+                        Yes, I'll rest
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
                 <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
