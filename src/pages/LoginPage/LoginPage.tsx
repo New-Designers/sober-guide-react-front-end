@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaApple, FaGoogle, FaEnvelope } from 'react-icons/fa';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
@@ -6,20 +6,11 @@ import { Link } from 'react-router-dom';
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const formRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement login logic here
     console.log('Login attempted with:', { username, password });
-    // If login is successful, you might want to navigate to a different page
-    // navigate('/dashboard');
   };
-
-  // Scroll function
-  useEffect(() => {
-    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }, [username, password]);
 
   return (
     <div style={{
@@ -33,13 +24,12 @@ const LoginPage: React.FC = () => {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       fontFamily: '"Courier New", Courier, monospace',
-      padding: '0 50px 50px 50px',
-      overflowY: 'auto',
+      padding: '20px',
     }}>
-      <div ref={formRef} style={{
+      <div style={{
         width: '100%',
         maxWidth: '414px',
-        padding: '2rem',
+        padding: '1.5rem',
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
         backdropFilter: 'blur(10px)',
         borderRadius: '1rem',
@@ -47,31 +37,29 @@ const LoginPage: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: '20px',
       }}>
         <div style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          marginBottom: '2rem',
+          marginBottom: '1rem',
         }}>
           <img src="/src/assets/sobericon.png" alt="Sober Guide Icon" style={{
             width: '80px',
             height: 'auto',
           }} />
           <h2 style={{
-            marginTop: '1rem',
+            marginTop: '0.5rem',
             fontSize: '1.5rem',
             fontWeight: 'bold',
             color: 'white',
           }}>Welcome Back</h2>
         </div>
-
         <form onSubmit={handleSubmit} style={{
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1rem',
+          gap: '0.5rem',
         }}>
           <input 
             type="text" 
@@ -108,14 +96,13 @@ const LoginPage: React.FC = () => {
             variant="contained" 
             color="success" 
             fullWidth 
-            style={{ marginTop: '1rem', padding: '0.75rem', fontSize: '1rem' }}
+            style={{ marginTop: '0.5rem', padding: '0.75rem', fontSize: '1rem' }}
           >
             Login
           </Button>
         </form>
-
         <div style={{
-          marginTop: '1.5rem',
+          marginTop: '0.75rem',
           textAlign: 'center',
           width: '100%',
         }}>
@@ -123,30 +110,29 @@ const LoginPage: React.FC = () => {
           <span style={{ margin: '0 0.75rem', color: 'white' }}>|</span>
           <Link to="/reset-password" style={{ color: '#10B981', textDecoration: 'none', fontSize: '1rem' }}>Forgot password?</Link>
         </div>
-
         <div style={{
-          marginTop: '2rem',
+          marginTop: '1rem',
           textAlign: 'center',
           width: '100%',
         }}>
-          <p style={{ color: 'white', marginBottom: '1rem', fontSize: '1rem' }}>Or continue with</p>
+          <p style={{ color: 'white', marginBottom: '0.5rem', fontSize: '1rem' }}>Or continue with</p>
           <div style={{
             display: 'flex',
             justifyContent: 'center',
-            gap: '1.5rem',
+            gap: '1rem',
           }}>
             {['apple', 'google', 'envelope'].map((icon) => (
               <a key={icon} href="#" style={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: '50px',
-                height: '50px',
+                width: '40px',
+                height: '40px',
                 backgroundColor: 'white',
                 borderRadius: '50%',
                 color: '#4A5568',
                 textDecoration: 'none',
-                fontSize: '1.5rem',
+                fontSize: '1.25rem',
               }}>
                 {icon === 'apple' && <FaApple />}
                 {icon === 'google' && <FaGoogle />}
