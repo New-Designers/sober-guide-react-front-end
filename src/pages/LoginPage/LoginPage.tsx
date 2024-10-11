@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { FaApple, FaGoogle, FaEnvelope } from 'react-icons/fa';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
@@ -16,11 +16,6 @@ const LoginPage: React.FC = () => {
     // navigate('/dashboard');
   };
 
-  // Scroll function
-  useEffect(() => {
-    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }, [username, password]);
-
   return (
     <div style={{
       width: '100%',
@@ -33,8 +28,8 @@ const LoginPage: React.FC = () => {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       fontFamily: '"Courier New", Courier, monospace',
-      padding: '0 50px 50px 50px',
-      overflowY: 'auto',
+      padding: '0 50px',
+      overflow: 'hidden', // Changed from overflowY: 'auto' to disable scrolling
     }}>
       <div ref={formRef} style={{
         width: '100%',
@@ -47,20 +42,19 @@ const LoginPage: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: '20px',
       }}>
         <div style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          marginBottom: '2rem',
+          marginBottom: '1.5rem',
         }}>
           <img src="/src/assets/sobericon.png" alt="Sober Guide Icon" style={{
             width: '80px',
             height: 'auto',
           }} />
           <h2 style={{
-            marginTop: '1rem',
+            marginTop: '0.75rem',
             fontSize: '1.5rem',
             fontWeight: 'bold',
             color: 'white',
@@ -71,7 +65,7 @@ const LoginPage: React.FC = () => {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1rem',
+          gap: '0.75rem',
         }}>
           <input 
             type="text" 
@@ -108,14 +102,14 @@ const LoginPage: React.FC = () => {
             variant="contained" 
             color="success" 
             fullWidth 
-            style={{ marginTop: '1rem', padding: '0.75rem', fontSize: '1rem' }}
+            style={{ marginTop: '0.75rem', padding: '0.75rem', fontSize: '1rem' }}
           >
             Login
           </Button>
         </form>
 
         <div style={{
-          marginTop: '1.5rem',
+          marginTop: '1.25rem',
           textAlign: 'center',
           width: '100%',
         }}>
@@ -125,11 +119,11 @@ const LoginPage: React.FC = () => {
         </div>
 
         <div style={{
-          marginTop: '2rem',
+          marginTop: '1.5rem',
           textAlign: 'center',
           width: '100%',
         }}>
-          <p style={{ color: 'white', marginBottom: '1rem', fontSize: '1rem' }}>Or continue with</p>
+          <p style={{ color: 'white', marginBottom: '0.75rem', fontSize: '1rem' }}>Or continue with</p>
           <div style={{
             display: 'flex',
             justifyContent: 'center',
