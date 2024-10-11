@@ -1,60 +1,20 @@
 .my-info-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 91px;
-  min-height: 100%;
-  background-color: #01344A;
-  color: white;
-  width: max-content;
+  width: 200;
+  height: 200;
+  border: solid white;
+  margin: 10px 25px;
+  padding: 30px 30px;
 }
 
-.userContainer {
-  display: flex;
-  align-items: center;
+.input {
   width: 100%;
-  margin-bottom: 20px;
-}
-
-.avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-right: 15px;
-  border: 2px solid white;
-}
-
-.name {
-  font-size: 1.3em;
-  font-weight: bold;
-  color: white;
-}
-
-.healthContainer {
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 15px;
-}
-
-.healthItem {
-  display: flex;
-  justify-content: space-between;
+  padding: 10px;
   margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 5px;
 }
 
-.healthItem:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.healthLabel {
+.title {
   font-weight: bold;
-}
-
-.healthValue {
-  color: #f0f0f0;
+  font-size: 1.1rem;
 }

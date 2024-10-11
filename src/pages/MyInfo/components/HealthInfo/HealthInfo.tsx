@@ -1,33 +1,60 @@
 import React from 'react';
 import styles from '../../MyInfo.module.css';
 
-interface HealthInfoProps {
-  age: number;
-  height: number;
-  weight: number;
+interface HealthData {
+  age: number | null;
+  height: number | null;
+  weight: number | null;
   gender: string;
 }
 
-const HealthInfo: React.FC<HealthInfoProps> = ({ age, height, weight, gender }) => {
+interface HealthInfoProps extends HealthData {
+  onUpdate: <K extends keyof HealthData>(field: K, value: HealthData[K]) => void;
+}
+
+const HealthInfo: React.FC<HealthInfoProps> = ({ age, height, weight, gender, onUpdate }) => {
   return (
     <div className={styles.healthContainer}>
-      <div className={styles.healthItem}>
-        <span className={styles.healthLabel}>Age: </span>
-        <span className={styles.healthValue}>{age} </span>
+      <div>
+      <p className={styles.title}>Health Information</p>
+        <input
+          type="number"
+          value={age ?? ''}
+          onChange={(e) => onUpdate('age', e.target.value ? Number(e.target.value) : null)}
+          placeholder="Enter your age"
+          className={styles.input}
+        />
       </div>
-      <div className={styles.healthItem}>
-        <span className={styles.healthLabel}>Height: </span>
-        <span className={styles.healthValue}>{height} cm</span>
+      <div>
+        <input
+          type="number"
+          value={height ?? ''}
+          onChange={(e) => onUpdate('height', e.target.value ? Number(e.target.value) : null)}
+          placeholder="Enter your height (cm)"
+          className={styles.input}
+        />
       </div>
-      <div className={styles.healthItem}>
-        <span className={styles.healthLabel}>Weight: </span>
-        <span className={styles.healthValue}>{weight} kg</span>
+      <div>
+        <input
+          type="number"
+          value={weight ?? ''}
+          onChange={(e) => onUpdate('weight', e.target.value ? Number(e.target.value) : null)}
+          placeholder="Enter your weight (kg)"
+          className={styles.input}
+        />
       </div>
-      <div className={styles.healthItem}>
-        <span className={styles.healthLabel}>Gender: </span>
-        <span className={styles.healthValue}>{gender}</span>
+      <div>
+        <input
+          type="text"
+          value={gender}
+          onChange={(e) => onUpdate('gender', e.target.value)}
+          placeholder="Enter your gender"
+          className={styles.input}
+        />
       </div>
     </div>
+    
+    
   );
 };
 
