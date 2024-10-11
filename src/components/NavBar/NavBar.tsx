@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Grow, List, ListItemButton, ListItemIcon, ListItemText, IconButton } from '@mui/material';
+import { Box, List, ListItemButton, ListItemIcon, ListItemText, IconButton } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MapIcon from '@mui/icons-material/Map';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -9,9 +9,9 @@ import TourIcon from '@mui/icons-material/Tour';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
-import { keyframes, styled } from '@mui/system';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import HomeIcon from '@mui/icons-material/Home';
+import { keyframes, styled } from '@mui/system';
 
 interface NavItem {
   text: string;
@@ -111,57 +111,57 @@ const NavBar: React.FC = () => {
       </Box>
       <Box 
         sx={{ 
-          display: isNavOpen ? 'flex' : 'none',
-          flexDirection: 'column',
-          marginTop: 2,
+          opacity: isNavOpen ? 1 : 0,
+          visibility: isNavOpen ? 'visible' : 'hidden',
+          transition: 'opacity 300ms, visibility 300ms',
           position: 'absolute',
           right: 0,
           top: '40px',
-          backgroundColor: 'rgba(1, 52, 64, 0.9)',
           borderRadius: '0 0 0 10px',
           padding: '10px',
           zIndex: 1000,
+          pointerEvents: isNavOpen ? 'auto' : 'none',
         }}
       >
         <List>
           {navItems.map((item, index) => (
-            <Grow
+            <ListItemButton
               key={item.text}
-              in={isNavOpen}
-              style={{ transformOrigin: 'top right' }}
-              timeout={(index + 1) * 200}
+              sx={{
+                padding: '12px 14px',
+                backgroundColor: '#01344A',
+                color: 'white',
+                borderRadius: 4.5,
+                border: 'solid 1.5px white',
+                marginBottom: 1,
+                marginRight: 0,
+                boxShadow: `rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+               rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
+               rgba(0, 0, 0, 0.2) 0px -3px 0px inset`,
+                '&:hover': {
+                  backgroundColor: '#26A69A',
+                },
+                opacity: isNavOpen ? 1 : 0,
+                transform: `translateY(${isNavOpen ? 0 : '20px'})`,
+                transition: `opacity 300ms ${index * 50}ms, transform 300ms ${index * 50}ms`,
+              }}
+              onClick={() => handleNavigation(item.path)}
             >
-              <ListItemButton
+              <ListItemIcon sx={{ minWidth: '30px', color: 'white' }}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={item.text}
                 sx={{
-                  padding: '12px 15px',
-                  backgroundColor: '#2ED2B9',
-                  color: 'white',
-                  borderRadius: 4,
-                  marginBottom: 1.5,
-                  marginRight: 1,
-                  '&:hover': {
-                    backgroundColor: '#26A69A',
+                  marginLeft: '16px',
+                  '& .MuiListItemText-primary': {
+                    fontFamily: "'Courier New', Courier, monospace",
+                    fontSize: '17px',
+                    fontWeight: 'bold',
                   },
                 }}
-                onClick={() => handleNavigation(item.path)}
-              >
-                <ListItemIcon sx={{ minWidth: '30px', color: 'white' }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.text}
-                  sx={{
-                    marginLeft: '16px',
-                    '& .MuiListItemText-primary': {
-                      fontFamily: "'Courier New', Courier, monospace",
-                      fontSize: '17px',
-                      fontWeight: 'bold',
-                    },
-                  }}
-                />
-              </ListItemButton>
-            </Grow>
-            
+              />
+            </ListItemButton>
           ))}
         </List>
       </Box>

@@ -85,23 +85,17 @@ const HomePage: React.FC = () => {
   const [selectedWeek, setSelectedWeek] = useState(2); // Default to current week
 
   const handleWeekChange = useCallback((index: number) => {
-    console.log('Button clicked:', index);
-    setSelectedWeek(prevWeek => {
-      console.log('Updating selectedWeek from', prevWeek, 'to', index);
-      return index;
-    });
+    setSelectedWeek(index);
   }, []);
-
-  console.log('Rendering with selectedWeek:', selectedWeek);
 
   const selectedData = weeklyData[selectedWeek];
   const remainingAmount = selectedData.limit - selectedData.totalIntake;
   const intakePercentage = (selectedData.totalIntake / selectedData.limit) * 100;
 
   return (
-    <Box sx={{ bgcolor: '#013440', color: 'white', minHeight: '100vh', padding: 2 }}>
+    <Box sx={{ bgcolor: '#013440', minHeight: '100vh', padding: 2 }}>
       {/* Weather API Placeholder */}
-      <Paper elevation={3} sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', p: 2, mb: 2, borderRadius: 2 }}>
+      <Paper elevation={3} sx={{ bgcolor: '#26a69a', color: 'white', p: 2, mb: 2, borderRadius: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box>
             <Typography variant="h6">Brisbane</Typography>
@@ -120,9 +114,17 @@ const HomePage: React.FC = () => {
           <Button
             key={week.week}
             variant={selectedWeek === index ? "contained" : "outlined"}
-            color="primary"
+            sx={{
+              bgcolor: '#26a69a',
+              color: 'white',
+              '&:hover': {
+                bgcolor: '#2ed2b9',
+              },
+              ...(selectedWeek === index && {
+                border: '2px solid white',
+              }),
+            }}
             onClick={() => handleWeekChange(index)}
-            
           >
             {week.week}
           </Button>
@@ -130,7 +132,7 @@ const HomePage: React.FC = () => {
       </Box>
 
       {/* Alcohol Intake Information */}
-      <Paper elevation={3} sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', p: 2, mb: 2, borderRadius: 2 }}>
+      <Paper elevation={3} sx={{ bgcolor: '#26a69a', color: 'white', p: 2, mb: 2, borderRadius: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="body2">Weekly Limit</Typography>
@@ -145,7 +147,7 @@ const HomePage: React.FC = () => {
       </Paper>
 
       {/* Alcohol Intake Trend */}
-      <Card sx={{ bgcolor: '#26a69a', mb: 2 }}>
+      <Card sx={{ bgcolor: '#26a69a', color: 'white', mb: 2 }}>
         <CardContent>
           <Typography variant="h6" sx={{ mb: 1 }}>Alcohol Intake Trend</Typography>
           <ResponsiveContainer width="100%" height={200}>
@@ -160,7 +162,7 @@ const HomePage: React.FC = () => {
       </Card>
 
       {/* Today's Advice */}
-      <Card sx={{ bgcolor: '#26a69a', mb: 2 }}>
+      <Card sx={{ bgcolor: '#26a69a', color: 'white', mb: 2 }}>
         <CardContent>
           <Typography variant="h6" sx={{ mb: 1 }}>Today's Advice</Typography>
           <Typography variant="body2">• Drink water between alcoholic beverages to stay hydrated</Typography>
@@ -171,24 +173,24 @@ const HomePage: React.FC = () => {
       </Card>
 
       {/* Health Tips */}
-      <Typography variant="h6" sx={{ mb: 1 }}>Health Tips</Typography>
+      <Typography variant="h6" sx={{ mb: 1, color: 'white' }}>Health Tips</Typography>
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <Card>
+          <Card sx={{ bgcolor: '#26a69a', color: 'white', height: '100%' }}>
             <CardContent>
               <Typography variant="body2">Refreshing Alternatives</Typography>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={4}>
-          <Card>
+          <Card sx={{ bgcolor: '#26a69a', color: 'white', height: '100%' }}>
             <CardContent>
               <Typography variant="body2">Mocktail Magic</Typography>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={4}>
-          <Card>
+          <Card sx={{ bgcolor: '#26a69a', color: 'white', height: '100%' }}>
             <CardContent>
               <Typography variant="body2">Healthy Habits</Typography>
             </CardContent>
