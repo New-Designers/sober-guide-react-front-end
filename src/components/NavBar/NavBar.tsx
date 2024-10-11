@@ -132,7 +132,7 @@ const NavBar: React.FC = () => {
                 backgroundColor: '#01344A',
                 color: 'white',
                 borderRadius: 4.5,
-                border: 'solid 1.5px white',
+                border: 'solid 1.3px white',
                 marginBottom: 1,
                 marginRight: 0,
                 boxShadow: `rgba(0, 0, 0, 0.25) 0px 14px 28px, 
@@ -142,7 +142,7 @@ const NavBar: React.FC = () => {
                 },
                 opacity: isNavOpen ? 1 : 0,
                 transform: `translateY(${isNavOpen ? 0 : '20px'})`,
-                transition: `opacity 300ms ${index * 50}ms, transform 300ms ${index * 50}ms`,
+                transition: `opacity 300ms ${index * 60}ms, transform 200ms ${index * 50}ms`,
               }}
               onClick={() => handleNavigation(item.path)}
             >
