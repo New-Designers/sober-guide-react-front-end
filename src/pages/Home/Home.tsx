@@ -26,7 +26,7 @@ const BottleShape: React.FC<{ fillPercentage: number; remainingAmount: number }>
     width: 120, 
     height: 200, 
     border: '4px solid #2196f3', 
-    borderRadius: '0 0 40px 40px', 
+    borderRadius: '0 0 35px 35px', 
     overflow: 'hidden',
     backgroundColor: 'white',
   }}>
@@ -169,7 +169,7 @@ const HomePage: React.FC = () => {
                 contentStyle={{ 
                   backgroundColor: '#013440', 
                   border: '1px solid #FFFFFF',
-                  borderRadius: '4px',
+                  borderRadius: '2',
                   color: '#FFFFFF'
                 }}
               />
