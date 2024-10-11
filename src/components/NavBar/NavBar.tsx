@@ -9,7 +9,6 @@ import TourIcon from '@mui/icons-material/Tour';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import HomeIcon from '@mui/icons-material/Home';
 import { keyframes, styled } from '@mui/system';
 
@@ -84,8 +83,7 @@ const NavBar: React.FC = () => {
     { text: 'Map', icon: <MapIcon />, path: '/map' },
     { text: 'Rewards', icon: <EmojiEventsIcon />, path: '/reward' },
     { text: 'Tips', icon: <TipsAndUpdatesIcon />, path: '/' },
-    { text: 'Places', icon: <TourIcon />, path: '/' },
-    { text: 'Records', icon: <AccessTimeIcon />, path: '/time-tracking' },
+    { text: 'Records', icon: <TourIcon />, path: '/time-tracking' },
   ];
 
   return (
@@ -128,12 +126,12 @@ const NavBar: React.FC = () => {
             <ListItemButton
               key={item.text}
               sx={{
-                padding: '12px 14px',
+                padding: '11px 13px',
                 backgroundColor: '#01344A',
                 color: 'white',
                 borderRadius: 4.5,
                 border: 'solid 1.3px white',
-                marginBottom: 1,
+                marginBottom: 1.1,
                 marginRight: 0,
                 boxShadow: `rgba(0, 0, 0, 0.25) 0px 14px 28px, 
                 rgba(0, 0, 0, 0.22) 0px 10px 10px`,
