@@ -1,23 +1,23 @@
 import React, { useState, useCallback } from 'react';
 import { Box, Typography, Card, CardContent, Grid, Paper, Button } from '@mui/material';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import CloudIcon from '@mui/icons-material/Cloud';
 
 // Mock data for three weeks
 const weeklyData = [
-  { week: 'Two Weeks Ago', totalIntake: 1.2, limit: 2 },
-  { week: 'Last Week', totalIntake: 0.8, limit: 2 },
-  { week: 'Current Week', totalIntake: 0.5, limit: 2 },
+  { week: 'Two Weeks Ago', totalIntake: 1.8, limit: 2 },
+  { week: 'Last Week', totalIntake: 1.2, limit: 2 },
+  { week: 'Current Week', totalIntake: 0.7, limit: 2 },
 ];
 
 const data = [
-  { name: 'Week 1', intake: 90 },
-  { name: 'Week 2', intake: 80 },
-  { name: 'Week 3', intake: 70 },
-  { name: 'Week 4', intake: 60 },
-  { name: 'Week 5', intake: 50 },
-  { name: 'Week 6', intake: 40 },
-  { name: 'Week 7', intake: 30 },
+  { name: 'Mon', intake: 0.3 },
+  { name: 'Tue', intake: 0.5 },
+  { name: 'Wed', intake: 0.2 },
+  { name: 'Thu', intake: 0.7 },
+  { name: 'Fri', intake: 0.9 },
+  { name: 'Sat', intake: 1.1 },
+  { name: 'Sun', intake: 0.6 },
 ];
 
 const BottleShape: React.FC<{ fillPercentage: number; remainingAmount: number }> = ({ fillPercentage, remainingAmount }) => (
@@ -136,7 +136,7 @@ const HomePage: React.FC = () => {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="body2">Weekly Limit</Typography>
-            <Typography variant="h4" sx={{ color: '#4CAF50' }}>{selectedData.limit}L</Typography>
+            <Typography variant="h4" sx={{ color: '#000080' }}>{selectedData.limit}L</Typography>
           </Box>
           <BottleShape fillPercentage={intakePercentage} remainingAmount={remainingAmount} />
           <Box sx={{ textAlign: 'center' }}>
@@ -149,13 +149,38 @@ const HomePage: React.FC = () => {
       {/* Alcohol Intake Trend */}
       <Card sx={{ bgcolor: '#26a69a', color: 'white', mb: 2 }}>
         <CardContent>
-          <Typography variant="h6" sx={{ mb: 1 }}>Alcohol Intake Trend</Typography>
+          <Typography variant="h6" sx={{ mb: 1, color: '#FFFFFF' }}>Alcohol Intake Trend</Typography>
           <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Line type="monotone" dataKey="intake" stroke="#ffffff" />
+            <LineChart 
+              data={data}
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#FFFFFF" />
+              <XAxis 
+                dataKey="name" 
+                stroke="#FFFFFF"
+                style={{ fontSize: '0.8rem', fontWeight: 'bold' }}
+              />
+              <YAxis 
+                stroke="#FFFFFF"
+                style={{ fontSize: '0.8rem', fontWeight: 'bold' }}
+              />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: '#013440', 
+                  border: '1px solid #FFFFFF',
+                  borderRadius: '4px',
+                  color: '#FFFFFF'
+                }}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="intake" 
+                stroke="#FFFF00" 
+                strokeWidth={3}
+                dot={{ r: 4, fill: '#FFFF00', stroke: '#FFFFFF', strokeWidth: 2 }}
+                activeDot={{ r: 8, fill: '#FFFF00', stroke: '#FFFFFF', strokeWidth: 2 }}
+              />
             </LineChart>
           </ResponsiveContainer>
         </CardContent>
