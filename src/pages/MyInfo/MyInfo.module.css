@@ -1,6 +1,6 @@
 .my-info-page {
+  min-height: 100vh;
   width: 200;
-  height: 200;
   background-color: #26a69a;
   border-radius: 10px;
   margin: 10px 25px;
