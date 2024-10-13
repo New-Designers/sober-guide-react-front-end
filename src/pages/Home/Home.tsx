@@ -1,15 +1,17 @@
+// Import necessary dependencies from React and Material-UI
 import React, { useState, useCallback } from 'react';
 import { Box, Typography, Card, CardContent, Grid, Paper, Button } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import CloudIcon from '@mui/icons-material/Cloud';
 
-// Mock data for three weeks
+// Mock data for three weeks of alcohol intake
 const weeklyData = [
   { week: 'Two Weeks Ago', totalIntake: 1.8, limit: 2 },
   { week: 'Last Week', totalIntake: 1.2, limit: 2 },
   { week: 'Current Week', totalIntake: 0.7, limit: 2 },
 ];
 
+// Mock data for daily alcohol intake
 const data = [
   { name: 'Mon', intake: 0.3 },
   { name: 'Tue', intake: 0.5 },
@@ -20,6 +22,7 @@ const data = [
   { name: 'Sun', intake: 0.6 },
 ];
 
+// BottleShape component to visualize remaining alcohol intake
 const BottleShape: React.FC<{ fillPercentage: number; remainingAmount: number }> = ({ fillPercentage, remainingAmount }) => (
   <Box sx={{ 
     position: 'relative', 
@@ -30,6 +33,7 @@ const BottleShape: React.FC<{ fillPercentage: number; remainingAmount: number }>
     overflow: 'hidden',
     backgroundColor: 'white',
   }}>
+    {/* Filled part of the bottle */}
     <Box
       sx={{
         position: 'absolute',
@@ -41,6 +45,7 @@ const BottleShape: React.FC<{ fillPercentage: number; remainingAmount: number }>
         transition: 'height 0.5s',
       }}
     >
+      {/* Percentage text */}
       <Typography
         variant="h6"
         sx={{
@@ -54,6 +59,7 @@ const BottleShape: React.FC<{ fillPercentage: number; remainingAmount: number }>
         {Math.round(fillPercentage)}%
       </Typography>
     </Box>
+    {/* Remaining amount text */}
     <Typography
       variant="h5"
       sx={{
@@ -81,13 +87,17 @@ const BottleShape: React.FC<{ fillPercentage: number; remainingAmount: number }>
   </Box>
 );
 
+// Main HomePage component
 const HomePage: React.FC = () => {
+  // State to keep track of the selected week
   const [selectedWeek, setSelectedWeek] = useState(2); // Default to current week
 
+  // Callback function to handle week change
   const handleWeekChange = useCallback((index: number) => {
     setSelectedWeek(index);
   }, []);
 
+  // Get data for the selected week
   const selectedData = weeklyData[selectedWeek];
   const remainingAmount = selectedData.limit - selectedData.totalIntake;
   const intakePercentage = (selectedData.totalIntake / selectedData.limit) * 100;

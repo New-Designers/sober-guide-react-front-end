@@ -1,13 +1,19 @@
+// Import necessary dependencies
 import React, { useState, useRef } from 'react';
 import { FaApple, FaGoogle, FaEnvelope } from 'react-icons/fa';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
+// Define the LoginPage component
 const LoginPage: React.FC = () => {
+  // State for username and password
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  
+  // Ref for the form container
   const formRef = useRef<HTMLDivElement>(null);
 
+  // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Implement login logic here
@@ -17,6 +23,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
+    // Main container
     <div style={{
       width: '100%',
       height: '100vh',
@@ -29,8 +36,9 @@ const LoginPage: React.FC = () => {
       backgroundPosition: 'center',
       fontFamily: '"Courier New", Courier, monospace',
       padding: '0 50px',
-      overflow: 'hidden', // Changed from overflowY: 'auto' to disable scrolling
+      overflow: 'hidden', // Disable scrolling
     }}>
+      {/* Form container */}
       <div ref={formRef} style={{
         width: '100%',
         maxWidth: '414px',
@@ -43,6 +51,7 @@ const LoginPage: React.FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
       }}>
+        {/* Logo and welcome message */}
         <div style={{
           display: 'flex',
           flexDirection: 'column',
@@ -61,12 +70,14 @@ const LoginPage: React.FC = () => {
           }}>Welcome Back</h2>
         </div>
 
+        {/* Login form */}
         <form onSubmit={handleSubmit} style={{
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
           gap: '0.75rem',
         }}>
+          {/* Username input */}
           <input 
             type="text" 
             placeholder="Username" 
@@ -82,6 +93,7 @@ const LoginPage: React.FC = () => {
               fontSize: '1rem',
             }} 
           />
+          {/* Password input */}
           <input 
             type="password" 
             placeholder="Password" 
@@ -97,6 +109,7 @@ const LoginPage: React.FC = () => {
               fontSize: '1rem',
             }} 
           />
+          {/* Login button */}
           <Button 
             type="submit" 
             variant="contained" 
@@ -108,6 +121,7 @@ const LoginPage: React.FC = () => {
           </Button>
         </form>
 
+        {/* Register and Forgot password links */}
         <div style={{
           marginTop: '1.25rem',
           textAlign: 'center',
@@ -118,6 +132,7 @@ const LoginPage: React.FC = () => {
           <Link to="/reset-password" style={{ color: '#10B981', textDecoration: 'none', fontSize: '1rem' }}>Forgot password?</Link>
         </div>
 
+        {/* Social login options */}
         <div style={{
           marginTop: '1.5rem',
           textAlign: 'center',
@@ -129,6 +144,7 @@ const LoginPage: React.FC = () => {
             justifyContent: 'center',
             gap: '1.5rem',
           }}>
+            {/* Social login buttons */}
             {['apple', 'google', 'envelope'].map((icon) => (
               <a key={icon} href="#" style={{
                 display: 'flex',
