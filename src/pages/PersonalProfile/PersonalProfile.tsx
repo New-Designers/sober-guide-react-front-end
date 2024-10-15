@@ -13,7 +13,6 @@ const PersonalProfile: React.FC = () => {
   });
 
   useEffect(() => {
-    // 从 localStorage 加载保存的个人资料
     const savedProfile = localStorage.getItem('userProfile');
     if (savedProfile) {
       setProfile(JSON.parse(savedProfile));
@@ -26,7 +25,6 @@ const PersonalProfile: React.FC = () => {
 
   const handleSave = () => {
     setIsEditing(false);
-    // 保存到 localStorage
     localStorage.setItem('userProfile', JSON.stringify(profile));
   };
 

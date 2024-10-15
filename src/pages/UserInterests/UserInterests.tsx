@@ -20,7 +20,6 @@ const UserInterests: React.FC = () => {
   const [selectedInterests, setSelectedInterests] = useState<number[]>([]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  // 在组件加载时从localStorage读取保存的选择
   useEffect(() => {
     const savedInterests = localStorage.getItem('userInterests');
     if (savedInterests) {
@@ -34,7 +33,6 @@ const UserInterests: React.FC = () => {
         ? prev.filter(i => i !== index)
         : [...prev, index];
       
-      // 保存新的选择到localStorage
       localStorage.setItem('userInterests', JSON.stringify(newSelection));
       return newSelection;
     });
@@ -43,7 +41,6 @@ const UserInterests: React.FC = () => {
   const handleConfirm = () => {
     console.log('Selected interests:', selectedInterests.map(i => interests[i]));
     setOpenSnackbar(true);
-    // 这里可以添加其他保存逻辑，如发送到服务器等
   };
 
   const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
