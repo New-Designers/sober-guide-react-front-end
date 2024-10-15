@@ -39,6 +39,11 @@ const MyInfo: React.FC = () => {
     });
   };
 
+  const updateUserInfo = (newInfo: UserInfo) => {
+    setUserInfo(newInfo);
+    localStorage.setItem('userInfo', JSON.stringify(newInfo));
+  };
+
   return (
     <Box sx={{ 
       width: '100%', 

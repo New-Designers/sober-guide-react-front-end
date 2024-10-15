@@ -13,8 +13,9 @@ import SGTitle from './components/SGTitle/SGTitle';
 import NavBar from './components/NavBar/NavBar';
 import MyInfo from './pages/MyInfo/MyInfo';
 import HealthTipsPage from './pages/HealthTips/HealthTipsPage';
-import UserInterests from './pages/UserInterests/UserInterests'; // 导入新的UserInterests组件
+import UserInterests from './pages/UserInterests/UserInterests';
 import PersonalProfile from './pages/PersonalProfile/PersonalProfile';
+import DrinkingPlan from './pages/DrinkingPlan/DrinkingPlan';
 
 function App() {
   const apiKey = 'AIzaSyA3L4eTGBZiSi5bagL1kmhRwRVYa3RNxP0';
@@ -47,6 +48,7 @@ function App() {
               <Route path="/tips" element={<HealthTipsPage />} />
               <Route path="/interests" element={<UserInterests />} />
               <Route path="/profile" element={<PersonalProfile />} />
+              <Route path="/drinking-plan" element={<DrinkingPlan />} />
             </Routes>
           </main>
         </div>

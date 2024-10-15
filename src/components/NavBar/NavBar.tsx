@@ -13,6 +13,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import { keyframes, styled } from '@mui/system';
 import InterestsIcon from '@mui/icons-material/Interests';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import LocalBarIcon from '@mui/icons-material/LocalBar';
 
 interface NavItem {
   text: string;
@@ -84,10 +85,12 @@ const NavBar: React.FC = () => {
     { text: 'Profile', icon: <MedicalInformationOutlinedIcon />, path: '/profile' },
     { text: 'My Info', icon: <LocalHospitalIcon />, path: '/my-info' },
     { text: 'Map', icon: <MapIcon />, path: '/map' },
+    { text: 'Drinking Plan', icon: <LocalBarIcon />, path: '/drinking-plan' },
     { text: 'Rewards', icon: <EmojiEventsIcon />, path: '/reward' },
     { text: 'Tips', icon: <TipsAndUpdatesIcon />, path: '/tips' },
     { text: 'Records', icon: <TourIcon />, path: '/time-tracking' },
     { text: 'Interests', icon: <InterestsIcon />, path: '/interests' },
+
   ];
 
   return (
