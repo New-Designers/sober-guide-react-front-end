@@ -4,15 +4,22 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import './Reset.css';
 
+// Define the Reset component for password reset functionality
 const Reset: React.FC = () => {
+    // Hook for programmatic navigation
     const navigate = useNavigate();
+    
+    // Ref for the form container to enable scrolling
     const formRef = useRef<HTMLDivElement>(null);
+    
+    // State to manage form data
     const [formData, setFormData] = useState({
-        identifier: '',
-        verificationCode: '',
-        newPassword: '',
+        identifier: '',        // User identifier (username/email/phone)
+        verificationCode: '',  // Verification code
+        newPassword: '',       // New password
     });
 
+    // Handle changes in form inputs
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prevData => ({
@@ -21,18 +28,22 @@ const Reset: React.FC = () => {
         }));
     };
 
+    // Handle form submission
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Password reset submitted', formData);
-        // Implement password reset logic here
+        // TODO: Implement password reset logic here
+        // This would typically involve sending the data to your backend
     };
 
+    // Function to send verification code
     const sendVerificationCode = () => {
         console.log('Verification code sent');
-        // Implement send verification code logic here
+        // TODO: Implement send verification code logic here
+        // This would typically involve sending a request to your backend to generate and send a code
     };
 
-    // Scroll function
+    // Effect to scroll to the bottom of the form when data changes
     useEffect(() => {
         formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }, [formData]);
@@ -40,6 +51,7 @@ const Reset: React.FC = () => {
     return (
         <div className="reset-password-container">
             <div ref={formRef} className="form-container">
+                {/* Return button to go back to login page */}
                 <Button
                     onClick={() => navigate('/login')}
                     variant="contained"
@@ -50,9 +62,12 @@ const Reset: React.FC = () => {
                     Return
                 </Button>
 
+                {/* Heading for the reset password form */}
                 <h3 className="heading">Reset the Password</h3>
 
+                {/* Reset password form */}
                 <form onSubmit={handleSubmit} className="reset-password-form">
+                    {/* Input for user identifier */}
                     <input
                         type="text"
                         name="identifier"
@@ -61,6 +76,8 @@ const Reset: React.FC = () => {
                         placeholder="Username/Email/Phone Number"
                         className="input"
                     />
+                    
+                    {/* Verification code input and send button */}
                     <div className="verification-container">
                         <input
                             type="text"
@@ -79,6 +96,8 @@ const Reset: React.FC = () => {
                             Send
                         </Button>
                     </div>
+                    
+                    {/* Input for new password */}
                     <input
                         type="password"
                         name="newPassword"
@@ -87,6 +106,8 @@ const Reset: React.FC = () => {
                         placeholder="Reset the password"
                         className="input"
                     />
+                    
+                    {/* Submit button to confirm password reset */}
                     <Button
                         type="submit"
                         variant="contained"
@@ -98,6 +119,8 @@ const Reset: React.FC = () => {
                         Confirm
                     </Button>
                 </form>
+                
+                {/* Button to navigate to registration page */}
                 <Button
                     onClick={() => navigate('/register')}
                     variant="text"

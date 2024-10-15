@@ -1,3 +1,4 @@
+// Import necessary dependencies
 import React, { useEffect, useRef, useState } from 'react';
 import { FaClock, FaStopwatch, FaList, FaMapMarkerAlt, FaWineBottle } from 'react-icons/fa';
 import Button from '@mui/material/Button';
@@ -11,10 +12,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+// Define prop types for the Map component
 type GoogleMapsProps = {
     apiKey: string;
 };
 
+// Create a custom Alert component using MuiAlert
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref,
@@ -22,11 +25,16 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const ONE_HOUR_IN_SECONDS = 10;
+// Define constants
+const ONE_HOUR_IN_SECONDS = 10; // For demo purposes, set to 10 seconds instead of 3600
 
+// Main Map component
 const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
+    // Refs for DOM elements
     const mapRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    // State variables
     const [map, setMap] = useState<google.maps.Map | null>(null);
     const [, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
     const [timerActive, setTimerActive] = useState(false);
@@ -45,6 +53,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [openNotification, setOpenNotification] = useState(false);
 
+    // Effect to load Google Maps script
     useEffect(() => {
         const loadGoogleMapsScript = () => {
             const script = document.createElement("script");
@@ -61,6 +70,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         return loadGoogleMapsScript();
     }, [apiKey]);
 
+    // Initialize Google Map
     const initMap = () => {
         if (!mapRef.current) return;
 
@@ -70,6 +80,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         });
         setMap(newMap);
 
+        // Initialize Autocomplete
         const newAutocomplete = new google.maps.places.Autocomplete(inputRef.current as HTMLInputElement, {
             types: ["geocode"],
         });
@@ -80,6 +91,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         getUserLocation(newMap);
     };
 
+    // Get user's current location
     const getUserLocation = (map: google.maps.Map) => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -97,6 +109,16 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                         title: "Your location",
                     });
                     setLocationError(null);
+
+                    // Reverse geocoding to get address
+                    const geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ location: pos }, (results, status) => {
+                        if (status === "OK" && results && results[0]) {
+                            setLocationInput(results[0].formatted_address);
+                        } else {
+                            console.error("Geocoder failed due to: " + status);
+                        }
+                    });
                 },
                 (error) => {
                     console.error("Geolocation error:", error);
@@ -114,6 +136,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         }
     };
 
+    // Handle location errors
     const handleLocationError = (
         browserHasGeolocation: boolean, 
         map: google.maps.Map, 
@@ -133,6 +156,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         infoWindow.open(map);
     };
 
+    // Handle place selection from Autocomplete
     const onPlaceChanged = (autocomplete: google.maps.places.Autocomplete, map: google.maps.Map) => {
         const place = autocomplete.getPlace();
 
@@ -154,6 +178,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         });
     };
 
+    // Format time in HH:MM:SS
     const formatTime = (totalSeconds: number) => {
         const hours = Math.floor(totalSeconds / 3600);
         const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -161,6 +186,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         return [hours, minutes, seconds].map(v => v < 10 ? "0" + v : v).join(":");
     };
 
+    // Start the timer
     const startTimer = () => {
         setCountdownTime(ONE_HOUR_IN_SECONDS);
         setTimerActive(true);
@@ -169,6 +195,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         setTotalTime(0);
     };
 
+    // Stop the timer
     const stopTimer = () => {
         setTimerActive(false);
         setEndTime(new Date().toLocaleTimeString());
@@ -176,6 +203,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         setShowAccumulatedTime(true);
     };
 
+    // Confirm location and show timer
     const confirmLocation = () => {
         if (locationInput.trim() === "") {
             alert("Please enter a location to confirm.");
@@ -184,6 +212,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         setShowTimer(true);
     };
 
+    // Reset all states to initial values
     const resetPage = () => {
         setShowTimer(false);
         setShowAccumulatedTime(false);
@@ -199,6 +228,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         setIsSubmitDisabled(true);
     };
 
+    // Handle user's response to the notification
     const handleNotificationResponse = (response: boolean) => {
         setOpenNotification(false);
         if (response) {
@@ -212,6 +242,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         }
     };
 
+    // Recommend nearby activities
     const recommendActivities = () => {
         if (map) {
             const service = new google.maps.places.PlacesService(map);
@@ -242,6 +273,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         }
     };
 
+    // Handle changes in alcohol intake input
     const handleAlcoholIntakeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         if (value === '' || (Number(value) >= 0 && Number(value) <= 10000)) {
@@ -250,6 +282,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         }
     };
 
+    // Close the snackbar
     const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -257,6 +290,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         setOpenSnackbar(false);
     };
 
+    // Submit collected data
     const submitData = () => {
         if (alcoholIntake === '' || Number(alcoholIntake) === 0 || Number(alcoholIntake) > 10000) {
             return; // Early return if validation fails
@@ -273,6 +307,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         recommendActivities();
     };
 
+    // Effect to handle timer logic
     useEffect(() => {
         let interval: number | undefined;
         if (timerActive) {
@@ -294,8 +329,10 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
         return () => clearInterval(interval);
     }, [timerActive, countdownTime]);
 
+    // Render the component
     return (
         <div style={{ height: '90vh', width:'100%', display: 'flex', flexDirection: 'column', padding: '0 65px 50px 50px', alignItems: 'center' }}>
+            {/* Search input and locate button */}
             <div style={{ display: 'flex', marginBottom: '10px', width: '120%', justifyContent: 'center',marginTop:'2rem'}}>
                 <input
                     ref={inputRef}
@@ -308,14 +345,18 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                     <FaMapMarkerAlt /> Locate
                 </button>
             </div>
+            
+            {/* Map container */}
             <div ref={mapRef} style={{ flex: 1, width: '120%', marginBottom: '10px', height: '60vh' }} />
             
+            {/* Location error message */}
             {locationError && (
                 <div style={{ color: 'red', padding: '10px', marginBottom: '10px', textAlign: 'center', width: '100%' }}>
                     {locationError}
                 </div>
             )}
             
+            {/* Timer display */}
             {showTimer && !dataSubmitted && (
                 <div style={{ 
                     marginBottom: '10px', 
@@ -359,7 +400,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                         ) : (
                             <Button 
                                 variant="contained" 
-                                color="secondary" 
+                                color="secondary"
                                 onClick={stopTimer} 
                                 startIcon={<FaStopwatch />}
                                 style={{ marginRight: '10px' }}
@@ -371,6 +412,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                 </div>
             )}
     
+            {/* Accumulated time and alcohol intake input */}
             {showAccumulatedTime && !dataSubmitted && (
                 <div style={{ marginBottom: '10px', textAlign: 'center', width: '100%' }}>
                     <div style={{ 
@@ -385,6 +427,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                             color: '#ffffff'
                         }}>Total Time: {formatTime(totalTime)}</h4>
                     </div>
+                    {/* Alcohol intake input field */}
                     <TextField
                         label="Alcohol Intake"
                         variant="outlined"
@@ -425,6 +468,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                             },
                         }}
                     />
+                    {/* Submit button */}
                     <Button 
                         variant="contained" 
                         color="primary" 
@@ -448,6 +492,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                 </div>
             )}
     
+            {/* Recommended places display */}
             {recommendedPlaces.length > 0 && dataSubmitted && (
                 <div style={{ 
                     marginBottom: '10px', 
@@ -476,6 +521,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                 </div>
             )}
 
+            {/* Confirm location button */}
             {!showTimer && !showAccumulatedTime && recommendedPlaces.length === 0 && (
                 <Button 
                     variant="contained" 
@@ -498,6 +544,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                 </Button>
             )}
             
+            {/* Reset button */}
             <Button 
                 variant="contained" 
                 color="success"
@@ -514,6 +561,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                 Reset
             </Button>
 
+            {/* Notification dialog */}
             <Dialog
                 open={openNotification}
                 onClose={() => handleNotificationResponse(false)}
@@ -538,6 +586,7 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                 </DialogActions>
             </Dialog>
 
+            {/* Success snackbar */}
             <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
                 <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
                     Submit successfully, searching surrounding entertainments
