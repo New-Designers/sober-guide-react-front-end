@@ -85,7 +85,6 @@ const NavBar: React.FC = () => {
     { text: 'Profile', icon: <MedicalInformationOutlinedIcon />, path: '/profile' },
     { text: 'My Info', icon: <LocalHospitalIcon />, path: '/my-info' },
     { text: 'Map', icon: <MapIcon />, path: '/map' },
-    { text: 'Plan', icon: <LocalBarIcon />, path: '/drinking-plan' },
     { text: 'Rewards', icon: <EmojiEventsIcon />, path: '/reward' },
     { text: 'Tips', icon: <TipsAndUpdatesIcon />, path: '/tips' },
     { text: 'Records', icon: <TourIcon />, path: '/time-tracking' },

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import InfoCard from './components/InfoCard/InfoCard';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import HeightIcon from '@mui/icons-material/Height';
 import MonitorWeightIcon from '@mui/icons-material/MonitorWeight';
 import WcIcon from '@mui/icons-material/Wc';
 import LocalBarIcon from '@mui/icons-material/LocalBar';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 interface UserInfo {
   age: number;
@@ -16,6 +18,7 @@ interface UserInfo {
 }
 
 const MyInfo: React.FC = () => {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<UserInfo>(() => {
     const savedInfo = localStorage.getItem('userInfo');
     return savedInfo ? JSON.parse(savedInfo) : {
@@ -39,9 +42,8 @@ const MyInfo: React.FC = () => {
     });
   };
 
-  const updateUserInfo = (newInfo: UserInfo) => {
-    setUserInfo(newInfo);
-    localStorage.setItem('userInfo', JSON.stringify(newInfo));
+  const navigateToPersonalProfile = () => {
+    navigate('../drinking-plan');
   };
 
   return (
@@ -49,7 +51,10 @@ const MyInfo: React.FC = () => {
       width: '100%', 
       maxWidth: '600px', 
       margin: '0 auto', 
-      padding: '20px'
+      padding: '20px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
     }}>
       <Box sx={{ 
         backgroundColor: '#024', 
@@ -95,6 +100,21 @@ const MyInfo: React.FC = () => {
           onUpdate={(value) => handleUpdate('alcoholTolerance', value)}
         />
       </Box>
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<AccountCircleIcon />}
+        onClick={navigateToPersonalProfile}
+        sx={{
+          marginTop: '20px',
+          backgroundColor: '#26a69a',
+          '&:hover': {
+            backgroundColor: '#2bbbad',
+          },
+        }}
+      >
+        View Personal Profile
+      </Button>
     </Box>
   );
 };
