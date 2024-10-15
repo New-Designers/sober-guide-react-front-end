@@ -11,6 +11,8 @@ import WidgetsIcon from '@mui/icons-material/Widgets';
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
 import HomeIcon from '@mui/icons-material/Home';
 import { keyframes, styled } from '@mui/system';
+import InterestsIcon from '@mui/icons-material/Interests';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
 interface NavItem {
   text: string;
@@ -19,11 +21,11 @@ interface NavItem {
 }
 
 const shakeAnimation = keyframes`
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(10deg); }
-  50% { transform: rotate(0eg); }
-  75% { transform: rotate(-10deg); }
-  100% { transform: rotate(0deg); }
+   0% { transform: rotate(0deg); }
+   25% { transform: rotate(10deg); }
+   50% { transform: rotate(0eg); }
+   75% { transform: rotate(-10deg); }
+   100% { transform: rotate(0deg); }
 `;
 
 const AnimatedIconButton = styled(IconButton)(() => ({
@@ -79,11 +81,13 @@ const NavBar: React.FC = () => {
   const navItems: NavItem[] = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'Account', icon: <AccountCircleIcon />, path: '/login' },
-    { text: 'My Info', icon: <MedicalInformationOutlinedIcon />, path: '/my-info' },
+    { text: 'Profile', icon: <MedicalInformationOutlinedIcon />, path: '/profile' },
+    { text: 'My Info', icon: <LocalHospitalIcon />, path: '/my-info' },
     { text: 'Map', icon: <MapIcon />, path: '/map' },
     { text: 'Rewards', icon: <EmojiEventsIcon />, path: '/reward' },
     { text: 'Tips', icon: <TipsAndUpdatesIcon />, path: '/tips' },
     { text: 'Records', icon: <TourIcon />, path: '/time-tracking' },
+    { text: 'Interests', icon: <InterestsIcon />, path: '/interests' },
   ];
 
   return (
