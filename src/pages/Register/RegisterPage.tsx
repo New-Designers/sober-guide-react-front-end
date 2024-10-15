@@ -2,17 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FaArrowLeft, FaPaperPlane, FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import './RegisterPage.css';
 
-// Define the RegisterPage component
 const RegisterPage: React.FC = () => {
-    // Hook for programmatic navigation
     const navigate = useNavigate();
-    
-    // Ref for the form container to enable scrolling
     const formRef = useRef<HTMLDivElement>(null);
     
-    // State to manage form data
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -24,7 +21,8 @@ const RegisterPage: React.FC = () => {
         agreeTerms: false
     });
 
-    // Handle changes in form inputs
+    const [showSuccess, setShowSuccess] = useState(false);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
         setFormData(prevData => ({
@@ -33,28 +31,35 @@ const RegisterPage: React.FC = () => {
         }));
     };
 
-    // Handle form submission
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Registration submitted', formData);
         // Here you would typically send the data to your backend
+        // For now, we'll simulate a successful registration
+        setShowSuccess(true);
     };
 
-    // Function to send verification code
     const sendVerificationCode = () => {
         console.log('Verification code sent');
         // Here you would typically implement the logic to send a verification code
     };
 
-    // Effect to scroll to the bottom of the form when data changes
     useEffect(() => {
         formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }, [formData]);
 
+    useEffect(() => {
+        if (showSuccess) {
+            const timer = setTimeout(() => {
+                navigate('/profile');
+            }, 3000); // Redirect after 3 seconds
+            return () => clearTimeout(timer);
+        }
+    }, [showSuccess, navigate]);
+
     return (
         <div className="register-container">
             <div ref={formRef} className="form-container">
-                {/* Return button */}
                 <Button
                     onClick={() => navigate('/login')}
                     variant="contained"
@@ -65,14 +70,11 @@ const RegisterPage: React.FC = () => {
                     Return
                 </Button>
 
-                {/* Heading */}
                 <h3 className="heading">
                     Join The <span className="brand-name">Sober Guide</span>
                 </h3>
 
-                {/* Registration form */}
                 <form onSubmit={handleSubmit} className="register-form">
-                    {/* Map through input fields */}
                     {[
                         { name: 'firstName', placeholder: "First Name" },
                         { name: 'lastName', placeholder: "Last Name" },
@@ -92,7 +94,6 @@ const RegisterPage: React.FC = () => {
                         />
                     ))}
 
-                    {/* Verification code input and send button */}
                     <div className="verification-container">
                         <input
                             type="text"
@@ -112,7 +113,6 @@ const RegisterPage: React.FC = () => {
                         </Button>
                     </div>
 
-                    {/* Terms agreement checkbox */}
                     <label className="checkbox-label">
                         <input
                             type="checkbox"
@@ -124,7 +124,6 @@ const RegisterPage: React.FC = () => {
                         I agree to and abide by the user agreement
                     </label>
 
-                    {/* Submit button */}
                     <Button
                         type="submit"
                         variant="contained"
@@ -137,6 +136,17 @@ const RegisterPage: React.FC = () => {
                     </Button>
                 </form>
             </div>
+
+            <Snackbar 
+                open={showSuccess} 
+                autoHideDuration={3000} 
+                onClose={() => setShowSuccess(false)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert onClose={() => setShowSuccess(false)} severity="success" sx={{ width: '100%' }}>
+                    Registration successful! Redirecting to profile page...
+                </Alert>
+            </Snackbar>
         </div>
     );
 };
