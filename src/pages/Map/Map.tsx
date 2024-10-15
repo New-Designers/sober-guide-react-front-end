@@ -109,6 +109,16 @@ const Map: React.FC<GoogleMapsProps> = ({ apiKey }) => {
                         title: "Your location",
                     });
                     setLocationError(null);
+
+                    // Reverse geocoding to get address
+                    const geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ location: pos }, (results, status) => {
+                        if (status === "OK" && results && results[0]) {
+                            setLocationInput(results[0].formatted_address);
+                        } else {
+                            console.error("Geocoder failed due to: " + status);
+                        }
+                    });
                 },
                 (error) => {
                     console.error("Geolocation error:", error);
