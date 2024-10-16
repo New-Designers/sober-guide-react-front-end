@@ -53,52 +53,7 @@ Guidance to start the front-end server
 2. Second, navigate to the file path in the terminal and type `npm start` to install the npm modules.
 3. Third, type `npm run dev` in the terminal. If there are any missing packages, install them as prompted.
 
-Front-end structure
-/project-root
-/
-├── /certs                  # SSL certificates for local HTTPS development
-│
-├── /node_modules           # Node.js modules 
-│
-├── /public                 # Public assets 
-│
-├── /src                    # Main source folder
-│   ├── /assets             # Static assets like images, icons, etc.
-│   ├── /components         # Reusable components
-│   │   ├── BackButton      # BackButton component
-│   │   ├── NavBar          # Navigation bar component
-│   │   └── SGTitle         # Title component for branding
-│   ├── /pages              # Individual pages of the app
-│   │   ├── DrinkingPlan    # Drinking Plan page
-│   │   ├── HealthTips      # Health Tips page
-│   │   ├── Home            # Home page
-│   │   ├── LoginPage       # Login page
-│   │   ├── Map             # Map page
-│   │   ├── MyInfo          # User Info page
-│   │   ├── PersonalProfile # Personal profile page
-│   │   ├── Register        # User registration page
-│   │   ├── Reset           # Password reset page
-│   │   ├── RewardsPage     # Rewards page
-│   │   ├── TimeRecord      # Time tracking records page
-│   │   └── UserInterests   # User Interests page
-│   ├── /styles             # Global and component styles
-│   │   ├── global.css      # Global CSS file for common styles
-│   │
-│   ├── App.tsx             # Main App component
-│   ├── index.css           # Global stylesheet for index page
-│   ├── main.tsx            # Main entry point for the app
-│   └── vite-env.d.ts       # TypeScript environment declaration
-│
-├── .gitignore              # Git ignore file
-├── eslint.config.js        # ESLint configuration file
-├── index.html              # Main HTML file
-├── package-lock.json       # Dependency lock file
-├── package.json            # Project metadata and dependencies
-├── README.md               # Project documentation
-├── tsconfig.app.json       # TypeScript configuration for the app
-├── tsconfig.json           # Main TypeScript configuration file
-├── tsconfig.node.json      # TypeScript configuration for Node.js
-└── vite.config.ts          # Vite configuration file
+
 
 Justification of front-end files
 1.Src/Components/backbutton
