@@ -1,25 +1,34 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaApple, FaGoogle, FaEnvelope } from 'react-icons/fa';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+  
   const formRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Implement login logic here
     console.log('Login attempted with:', { username, password });
-    // If login is successful, you might want to navigate to a different page
-    // navigate('/dashboard');
+    // For demonstration, we'll assume the login is always successful
+    setShowSuccess(true);
   };
 
-  // Scroll function
   useEffect(() => {
-    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }, [username, password]);
+    if (showSuccess) {
+      const timer = setTimeout(() => {
+        navigate('/profile');
+      }, 3000); // Redirect after 3 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccess, navigate]);
 
   return (
     <div style={{
@@ -33,8 +42,8 @@ const LoginPage: React.FC = () => {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       fontFamily: '"Courier New", Courier, monospace',
-      padding: '0 50px 50px 50px',
-      overflowY: 'auto',
+      padding: '0 50px',
+      overflow: 'hidden',
     }}>
       <div ref={formRef} style={{
         width: '100%',
@@ -47,20 +56,19 @@ const LoginPage: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: '20px',
       }}>
         <div style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          marginBottom: '2rem',
+          marginBottom: '1.5rem',
         }}>
           <img src="/src/assets/sobericon.png" alt="Sober Guide Icon" style={{
             width: '80px',
             height: 'auto',
           }} />
           <h2 style={{
-            marginTop: '1rem',
+            marginTop: '0.75rem',
             fontSize: '1.5rem',
             fontWeight: 'bold',
             color: 'white',
@@ -71,7 +79,7 @@ const LoginPage: React.FC = () => {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1rem',
+          gap: '0.75rem',
         }}>
           <input 
             type="text" 
@@ -108,14 +116,14 @@ const LoginPage: React.FC = () => {
             variant="contained" 
             color="success" 
             fullWidth 
-            style={{ marginTop: '1rem', padding: '0.75rem', fontSize: '1rem' }}
+            style={{ marginTop: '0.75rem', padding: '0.75rem', fontSize: '1rem' }}
           >
             Login
           </Button>
         </form>
 
         <div style={{
-          marginTop: '1.5rem',
+          marginTop: '1.25rem',
           textAlign: 'center',
           width: '100%',
         }}>
@@ -125,11 +133,11 @@ const LoginPage: React.FC = () => {
         </div>
 
         <div style={{
-          marginTop: '2rem',
+          marginTop: '1.5rem',
           textAlign: 'center',
           width: '100%',
         }}>
-          <p style={{ color: 'white', marginBottom: '1rem', fontSize: '1rem' }}>Or continue with</p>
+          <p style={{ color: 'white', marginBottom: '0.75rem', fontSize: '1rem' }}>Or continue with</p>
           <div style={{
             display: 'flex',
             justifyContent: 'center',
@@ -156,6 +164,17 @@ const LoginPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <Snackbar 
+        open={showSuccess} 
+        autoHideDuration={3000} 
+        onClose={() => setShowSuccess(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setShowSuccess(false)} severity="success" sx={{ width: '100%' }}>
+          Login successful! Redirecting to profile page...
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

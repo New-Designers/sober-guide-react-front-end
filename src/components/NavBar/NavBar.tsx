@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Grow, List, ListItemButton, ListItemIcon, ListItemText, IconButton } from '@mui/material';
+import { Box, List, ListItemButton, ListItemIcon, ListItemText, IconButton } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MapIcon from '@mui/icons-material/Map';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -9,9 +9,11 @@ import TourIcon from '@mui/icons-material/Tour';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
-import { keyframes, styled } from '@mui/system';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import HomeIcon from '@mui/icons-material/Home';
+import { keyframes, styled } from '@mui/system';
+import InterestsIcon from '@mui/icons-material/Interests';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import LocalBarIcon from '@mui/icons-material/LocalBar';
 
 interface NavItem {
   text: string;
@@ -20,11 +22,11 @@ interface NavItem {
 }
 
 const shakeAnimation = keyframes`
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(10deg); }
-  50% { transform: rotate(0eg); }
-  75% { transform: rotate(-10deg); }
-  100% { transform: rotate(0deg); }
+   0% { transform: rotate(0deg); }
+   25% { transform: rotate(10deg); }
+   50% { transform: rotate(0eg); }
+   75% { transform: rotate(-10deg); }
+   100% { transform: rotate(0deg); }
 `;
 
 const AnimatedIconButton = styled(IconButton)(() => ({
@@ -80,12 +82,14 @@ const NavBar: React.FC = () => {
   const navItems: NavItem[] = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'Account', icon: <AccountCircleIcon />, path: '/login' },
-    { text: 'My Info', icon: <MedicalInformationOutlinedIcon />, path: '/my-info' },
+    { text: 'Profile', icon: <MedicalInformationOutlinedIcon />, path: '/profile' },
+    { text: 'My Info', icon: <LocalHospitalIcon />, path: '/my-info' },
     { text: 'Map', icon: <MapIcon />, path: '/map' },
     { text: 'Rewards', icon: <EmojiEventsIcon />, path: '/reward' },
-    { text: 'Tips', icon: <TipsAndUpdatesIcon />, path: '/' },
-    { text: 'Places', icon: <TourIcon />, path: '/' },
-    { text: 'Records', icon: <AccessTimeIcon />, path: '/time-tracking' },
+    { text: 'Tips', icon: <TipsAndUpdatesIcon />, path: '/tips' },
+    { text: 'Records', icon: <TourIcon />, path: '/time-tracking' },
+    { text: 'Interests', icon: <InterestsIcon />, path: '/interests' },
+
   ];
 
   return (
@@ -111,57 +115,56 @@ const NavBar: React.FC = () => {
       </Box>
       <Box 
         sx={{ 
-          display: isNavOpen ? 'flex' : 'none',
-          flexDirection: 'column',
-          marginTop: 2,
+          opacity: isNavOpen ? 1 : 0,
+          visibility: isNavOpen ? 'visible' : 'hidden',
+          transition: 'opacity 300ms, visibility 300ms',
           position: 'absolute',
           right: 0,
           top: '40px',
-          backgroundColor: 'rgba(1, 52, 64, 0.9)',
           borderRadius: '0 0 0 10px',
           padding: '10px',
           zIndex: 1000,
+          pointerEvents: isNavOpen ? 'auto' : 'none',
         }}
       >
         <List>
           {navItems.map((item, index) => (
-            <Grow
+            <ListItemButton
               key={item.text}
-              in={isNavOpen}
-              style={{ transformOrigin: 'top right' }}
-              timeout={(index + 1) * 200}
+              sx={{
+                padding: '11px 13px',
+                backgroundColor: '#01344A',
+                color: 'white',
+                borderRadius: 4.5,
+                border: 'solid 1.3px white',
+                marginBottom: 1.1,
+                marginRight: 0,
+                boxShadow: `rgba(0, 0, 0, 0.25) 0px 14px 28px, 
+                rgba(0, 0, 0, 0.22) 0px 10px 10px`,
+                '&:hover': {
+                  backgroundColor: '#26A69A',
+                },
+                opacity: isNavOpen ? 1 : 0,
+                transform: `translateY(${isNavOpen ? 0 : '20px'})`,
+                transition: `opacity 300ms ${index * 60}ms, transform 200ms ${index * 50}ms`,
+              }}
+              onClick={() => handleNavigation(item.path)}
             >
-              <ListItemButton
+              <ListItemIcon sx={{ minWidth: '30px', color: 'white' }}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={item.text}
                 sx={{
-                  padding: '12px 15px',
-                  backgroundColor: '#2ED2B9',
-                  color: 'white',
-                  borderRadius: 4,
-                  marginBottom: 1.5,
-                  marginRight: 1,
-                  '&:hover': {
-                    backgroundColor: '#26A69A',
+                  marginLeft: '16px',
+                  '& .MuiListItemText-primary': {
+                    fontFamily: "'Courier New', Courier, monospace",
+                    fontSize: '17px',
+                    fontWeight: 'bold',
                   },
                 }}
-                onClick={() => handleNavigation(item.path)}
-              >
-                <ListItemIcon sx={{ minWidth: '30px', color: 'white' }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.text}
-                  sx={{
-                    marginLeft: '16px',
-                    '& .MuiListItemText-primary': {
-                      fontFamily: "'Courier New', Courier, monospace",
-                      fontSize: '17px',
-                      fontWeight: 'bold',
-                    },
-                  }}
-                />
-              </ListItemButton>
-            </Grow>
-            
+              />
+            </ListItemButton>
           ))}
         </List>
       </Box>

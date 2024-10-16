@@ -2,11 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FaArrowLeft, FaPaperPlane, FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import './RegisterPage.css';
 
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
     const formRef = useRef<HTMLDivElement>(null);
+    
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -17,6 +20,8 @@ const RegisterPage: React.FC = () => {
         verificationCode: '',
         agreeTerms: false
     });
+
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
@@ -29,15 +34,28 @@ const RegisterPage: React.FC = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Registration submitted', formData);
+        // Here you would typically send the data to your backend
+        // For now, we'll simulate a successful registration
+        setShowSuccess(true);
     };
 
     const sendVerificationCode = () => {
         console.log('Verification code sent');
+        // Here you would typically implement the logic to send a verification code
     };
 
     useEffect(() => {
         formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }, [formData]);
+
+    useEffect(() => {
+        if (showSuccess) {
+            const timer = setTimeout(() => {
+                navigate('/profile');
+            }, 3000); // Redirect after 3 seconds
+            return () => clearTimeout(timer);
+        }
+    }, [showSuccess, navigate]);
 
     return (
         <div className="register-container">
@@ -75,6 +93,7 @@ const RegisterPage: React.FC = () => {
                             className="input"
                         />
                     ))}
+
                     <div className="verification-container">
                         <input
                             type="text"
@@ -93,6 +112,7 @@ const RegisterPage: React.FC = () => {
                             Send
                         </Button>
                     </div>
+
                     <label className="checkbox-label">
                         <input
                             type="checkbox"
@@ -103,6 +123,7 @@ const RegisterPage: React.FC = () => {
                         />
                         I agree to and abide by the user agreement
                     </label>
+
                     <Button
                         type="submit"
                         variant="contained"
@@ -115,6 +136,17 @@ const RegisterPage: React.FC = () => {
                     </Button>
                 </form>
             </div>
+
+            <Snackbar 
+                open={showSuccess} 
+                autoHideDuration={3000} 
+                onClose={() => setShowSuccess(false)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert onClose={() => setShowSuccess(false)} severity="success" sx={{ width: '100%' }}>
+                    Registration successful! Redirecting to profile page...
+                </Alert>
+            </Snackbar>
         </div>
     );
 };

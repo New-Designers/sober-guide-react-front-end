@@ -3,6 +3,7 @@ import { Box, Typography, Button, Grid, Modal, Fade } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Close as CloseIcon } from '@mui/icons-material';
 
+// Mock data for the chart
 const data = [
   { date: 'Aug 13', drinks: 6 },
   { date: 'Aug 14', drinks: 5 },
@@ -13,43 +14,29 @@ const data = [
   { date: 'Aug 19', drinks: 0 },
 ];
 
+// Define the possible states for the reward section
 type RewardState = 'box' | 'rewards';
 
-interface Reward {
-  id: number;
-  description: string;
-  cover: string;
-}
+// List of possible rewards
+const rewards = [
+  'Free Drink', 'Movie Ticket', '$10 Gift Card', 'Fitness Pass',
+  'Book Voucher', 'Spa Day', 'Concert Tickets', 'Restaurant Coupon'
+];
 
+// Main RewardsDashboard component
 const RewardsDashboard: React.FC = () => {
+  // State variables
   const [rewardState, setRewardState] = useState<RewardState>('box');
   const [selectedReward, setSelectedReward] = useState<number | null>(null);
   const [showNotification, setShowNotification] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
-  const [rewards, setRewards] = useState<Reward[]>([]);
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_API_URL}/api/rewards/all`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(result => {
-        console.log("Rewards data:", result.data); 
-        setRewards(result.data); 
-      })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-  
-  
-
+  // Handler for clicking the reward box
   const handleRewardClick = () => {
     setRewardState('rewards');
   };
+
+  // Handler for clicking the start button
   const handleStartClick = () => {
     const randomIndex = Math.floor(Math.random() * rewards.length);
     setSelectedReward(randomIndex);
@@ -58,12 +45,39 @@ const RewardsDashboard: React.FC = () => {
     }, 1500);
   };
 
+  // Handler for closing the notification
   const handleCloseNotification = () => {
     setShowNotification(false);
+    // Reset to initial state
     setRewardState('box');
     setSelectedReward(null);
   };
 
+  // Effect for handling scroll events
+  useEffect(() => {
+    const handleScroll = () => {
+      if (contentRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = contentRef.current;
+        if (scrollTop + clientHeight >= scrollHeight - 10) {
+          // User has scrolled to the bottom
+          console.log('Reached the bottom of the page');
+        }
+      }
+    };
+
+    const currentRef = contentRef.current;
+    if (currentRef) {
+      currentRef.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (currentRef) {
+        currentRef.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
+
+  // Function to render the reward section based on the current state
   const renderReward = () => {
     switch (rewardState) {
       case 'box':
@@ -98,7 +112,7 @@ const RewardsDashboard: React.FC = () => {
           <Box sx={{ width: '100%' , marginBottom:'100px'}}>
             <Grid container spacing={2}>
               {rewards.map((reward, index) => (
-                <Grid item xs={4} key={reward.id}>
+                <Grid item xs={4} key={index}>
                   {index === 4 ? (
                     <Button
                       variant="contained"
@@ -123,20 +137,14 @@ const RewardsDashboard: React.FC = () => {
                         borderRadius: 2,
                         height: '100%',
                         display: 'flex',
-                        flexDirection: 'column',
                         justifyContent: 'center',
                         alignItems: 'center',
                         transition: 'background-color 0.3s',
                       }}
                     >
-                      <Typography variant="body2" align="center" sx={{ fontSize: '0.8rem', marginBottom: '5px' }}>
-                        {reward.description}
+                      <Typography variant="body2" align="center" sx={{ fontSize: '0.8rem' }}>
+                        {reward}
                       </Typography>
-                      <img 
-                        src={`${import.meta.env.VITE_BASE_API_URL}/${reward.cover}`} 
-                        alt={reward.description} 
-                        style={{ width: '50px', height: '50px', objectFit: 'contain' }}
-                      />
                     </Box>
                   )}
                 </Grid>
@@ -161,6 +169,7 @@ const RewardsDashboard: React.FC = () => {
       }}
     >
       <Typography variant="h6" gutterBottom>WEEKLY ALCOHOL INTAKE</Typography>
+      {/* Chart section */}
       <Box sx={{ height: 250, mb: 1 }}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
@@ -173,16 +182,19 @@ const RewardsDashboard: React.FC = () => {
         </ResponsiveContainer>
       </Box>
       
+      {/* Achievement message */}
       <Box sx={{ backgroundColor: '#035', p: 2, borderRadius: 2, mb: 1 }}>
         <Typography variant="body2" align="center">
           You have reduced social drinking for 7 consecutive days, and now you're being rewarded.
         </Typography>
       </Box>
       
+      {/* Reward section */}
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexGrow: 1, my: 2 }}>
         {renderReward()}
       </Box>
       
+      {/* Notification modal */}
       <Modal
         open={showNotification}
         onClose={handleCloseNotification}
@@ -224,20 +236,17 @@ const RewardsDashboard: React.FC = () => {
               You've won:
             </Typography>
             <Typography variant="h4" component="p" sx={{ fontWeight: 'bold', color: '#024' }}>
-              {selectedReward !== null && rewards[selectedReward] ? rewards[selectedReward].description : ''}
+              {selectedReward !== null ? rewards[selectedReward] : ''}
             </Typography>
-            {selectedReward !== null && rewards[selectedReward] && (
-              <img 
-                src={`${import.meta.env.VITE_BASE_API_URL}/${rewards[selectedReward].cover}`}
-                alt="Reward" 
-                style={{ 
-                  width: 60, 
-                  height: 60, 
-                  marginTop: '1rem',
-                  objectFit: 'contain'
-                }} 
-              />
-            )}
+            <img 
+              src="src\assets\gift.png" 
+              alt="Gift" 
+              style={{ 
+                width: 60, 
+                height: 60, 
+                marginTop: '1rem' 
+              }} 
+            />
           </Box>
         </Fade>
       </Modal>
