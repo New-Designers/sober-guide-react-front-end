@@ -29,19 +29,27 @@ const RewardsDashboard: React.FC = () => {
   const [rewards, setRewards] = useState<Reward[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/rewards')
-      .then(response => response.json())
-      .then(data => {
-        console.log("Rewards data:", data);
-        setRewards(data);
+    fetch(`${import.meta.env.VITE_BASE_API_URL}/api/rewards/all`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
       })
-      .catch(error => console.error("Error fetching data:", error));
+      .then(result => {
+        console.log("Rewards data:", result.data); 
+        setRewards(result.data); 
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
   }, []);
+  
+  
 
   const handleRewardClick = () => {
     setRewardState('rewards');
   };
-
   const handleStartClick = () => {
     const randomIndex = Math.floor(Math.random() * rewards.length);
     setSelectedReward(randomIndex);
@@ -55,28 +63,6 @@ const RewardsDashboard: React.FC = () => {
     setRewardState('box');
     setSelectedReward(null);
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (contentRef.current) {
-        const { scrollTop, scrollHeight, clientHeight } = contentRef.current;
-        if (scrollTop + clientHeight >= scrollHeight - 10) {
-          console.log('Reached the bottom of the page');
-        }
-      }
-    };
-
-    const currentRef = contentRef.current;
-    if (currentRef) {
-      currentRef.addEventListener('scroll', handleScroll);
-    }
-
-    return () => {
-      if (currentRef) {
-        currentRef.removeEventListener('scroll', handleScroll);
-      }
-    };
-  }, []);
 
   const renderReward = () => {
     switch (rewardState) {
@@ -93,11 +79,11 @@ const RewardsDashboard: React.FC = () => {
               alignItems: 'center',
               cursor: 'pointer',
               borderRadius: '10px',
-              marginBottom:'100px'
+              marginBottom: '100px'
             }}
           >
             <img 
-              src="src\assets\gift.png" 
+              src="src/assets/gift.png" 
               alt="Gift Box" 
               style={{ 
                 width: '100%', 
@@ -147,7 +133,7 @@ const RewardsDashboard: React.FC = () => {
                         {reward.description}
                       </Typography>
                       <img 
-                        src={`http://localhost:9008/${reward.cover}`} 
+                        src={`${import.meta.env.VITE_BASE_API_URL}/${reward.cover}`} 
                         alt={reward.description} 
                         style={{ width: '50px', height: '50px', objectFit: 'contain' }}
                       />
@@ -242,7 +228,7 @@ const RewardsDashboard: React.FC = () => {
             </Typography>
             {selectedReward !== null && rewards[selectedReward] && (
               <img 
-                src={`http://localhost:9008/${rewards[selectedReward].cover}`}
+                src={`${import.meta.env.VITE_BASE_API_URL}/${rewards[selectedReward].cover}`}
                 alt="Reward" 
                 style={{ 
                   width: 60, 
